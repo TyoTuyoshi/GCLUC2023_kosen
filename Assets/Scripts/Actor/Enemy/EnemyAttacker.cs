@@ -1,86 +1,50 @@
-using System;
-using System.Linq;
-using DG.Tweening;
-using UniRx;
 using UnityEngine;
 
 namespace Actor.Enemy
 {
+    /// <summary>
+    ///     プレイヤーが近くにいれば攻撃を行う
+    /// </summary>
     [RequireComponent(typeof(Animator))]
     public class EnemyAttacker : MonoBehaviour
     {
-        [SerializeField] private string[] comboAnimStates;
-        [SerializeField] private GrowValue attackPower;
-        [SerializeField] private float allowableComboTime, comboTransTime;
-        private Animator _animator;
-        private int[] _animStates;
-        private int _comboCount;
-        private Enemy _enemy;
-        private bool _isAllowAttack = true;
+        private Transform _player;
+        
         private static readonly int AnimIdAttackRange = Animator.StringToHash("AttackRange");
+        private static readonly int AnimIdAttackTrigger = Animator.StringToHash("AttackTrigger");
+        [SerializeField] private GrowValue attackPower;
+        private Animator _animator;
+        private Enemy _enemy;
 
         private void Start()
         {
             TryGetComponent(out _animator);
             TryGetComponent(out _enemy);
-
-            _enemy.OnActorEvent
-                .Where(ev => ev.GetType() == typeof(DamageEvent))
-                .Subscribe(_ => ResetCombo())
-                .AddTo(this);
-            
-            _animStates = comboAnimStates.Select(Animator.StringToHash).ToArray();
         }
 
-        private void ResetCombo()
+        private void OnGUI()
         {
-            _comboCount = 0;
+            if (GUILayout.Button("Attack")) Attack();
+            GUILayout.Label("");
         }
 
         /// <summary>
         ///     攻撃
         /// </summary>
-        public void Attack()
+        private void Attack()
         {
-            if (!_isAllowAttack) return;
-            
-            _animator.CrossFade(_animStates[_comboCount], comboTransTime);
-            _comboCount++;
-            
-            _isAllowAttack = true;
-            DOVirtual.DelayedCall(comboTransTime, () => _isAllowAttack = true);
+            _animator.SetTrigger(AnimIdAttackTrigger);
         }
 
-        /// <summary>
-        ///     次のコンボに移れることを示すアニメーションイベントハンドラー
-        /// </summary>
-        private void BeginComboTrans()
-        {
-            DOVirtual
-                .DelayedCall(allowableComboTime, ResetCombo)
-                .SetLink(gameObject);
-        }
-
-        /// <summary>
-        /// 攻撃がヒットする瞬間のアニメーションイベントハンドラー
-        /// </summary>
         private void HitAttack()
         {
-            var attackRange = _animator.GetFloat(AnimIdAttackRange);
+            _player ??= GameObject.FindWithTag("Player").transform;
             
-            if (_comboCount == _animStates.Length - 1)
+            var range = _animator.GetFloat(AnimIdAttackRange);
+            var playerRangeSqr = (_player.position - transform.position).sqrMagnitude;
+            if (Mathf.Pow(range, 2) <= playerRangeSqr)
             {
-                _comboCount = 0;
-            }
-            
-            // TODO: 攻撃の処理
-        }
-
-        private void OnGUI()
-        {
-            if (GUILayout.Button("Attack"))
-            {
-                Attack();
+                
             }
         }
     }

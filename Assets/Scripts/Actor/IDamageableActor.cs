@@ -14,11 +14,5 @@ namespace Actor
         ///     現在の体力
         /// </summary>
         public float CurrentHp { get; }
-
-        /// <summary>
-        ///     ダメージを与える
-        /// </summary>
-        /// <param name="damage">与えたダメージ</param>
-        public void TakeDamage(float damage);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using DG.Tweening;
 using UniRx;
@@ -15,7 +16,7 @@ namespace Actor.Enemy
         private int[] _animStates;
         private int _comboCount;
         private Enemy _enemy;
-        private bool _isAllowAttack;
+        private bool _isAllowAttack = true;
         private static readonly int AnimIdAttackRange = Animator.StringToHash("AttackRange");
 
         private void Start()
@@ -27,14 +28,13 @@ namespace Actor.Enemy
                 .Where(ev => ev.GetType() == typeof(DamageEvent))
                 .Subscribe(_ => ResetCombo())
                 .AddTo(this);
-
+            
             _animStates = comboAnimStates.Select(Animator.StringToHash).ToArray();
         }
 
         private void ResetCombo()
         {
             _comboCount = 0;
-            _isAllowAttack = false;
         }
 
         /// <summary>
@@ -44,8 +44,11 @@ namespace Actor.Enemy
         {
             if (!_isAllowAttack) return;
             
-            _comboCount++;
             _animator.CrossFade(_animStates[_comboCount], comboTransTime);
+            _comboCount++;
+            
+            _isAllowAttack = true;
+            DOVirtual.DelayedCall(comboTransTime, () => _isAllowAttack = true);
         }
 
         /// <summary>
@@ -53,7 +56,6 @@ namespace Actor.Enemy
         /// </summary>
         private void BeginComboTrans()
         {
-            _isAllowAttack = true;
             DOVirtual
                 .DelayedCall(allowableComboTime, ResetCombo)
                 .SetLink(gameObject);
@@ -66,7 +68,20 @@ namespace Actor.Enemy
         {
             var attackRange = _animator.GetFloat(AnimIdAttackRange);
             
+            if (_comboCount == _animStates.Length - 1)
+            {
+                _comboCount = 0;
+            }
+            
             // TODO: 攻撃の処理
+        }
+
+        private void OnGUI()
+        {
+            if (GUILayout.Button("Attack"))
+            {
+                Attack();
+            }
         }
     }
 }

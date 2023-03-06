@@ -17,4 +17,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/keigo/Scenes/TestScene2.unity
     guid: 8599652753aa9654483056857f92b474
+  - enabled: 1
+    path: Assets/p_yuki/Scene/MapSelectScene.unity
+    guid: c5acf3d9c7540f04eb79ee131372e4e7
+  - enabled: 1
+    path: Assets/p_yuki/Scene/Stage1.unity
+    guid: 7395f06528e91c748a37a758d73a4dee
+  - enabled: 1
+    path: Assets/p_yuki/Scene/Stage2.unity
+    guid: 9ce304268628acb4abf56b998dbc53bd
+  - enabled: 1
+    path: Assets/p_yuki/Scene/Stage3.unity
+    guid: b4b7560f6d8b30048a550f7c535f0f17
+  - enabled: 1
+    path: Assets/p_yuki/Scene/Stage4.unity
+    guid: 7b2b6bdb32f3c7244b6cc9a363c3592a
   m_configObjects: {}

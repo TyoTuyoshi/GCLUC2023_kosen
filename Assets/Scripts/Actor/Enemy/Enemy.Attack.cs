@@ -30,7 +30,9 @@ namespace Actor.Enemy
 
             private void HitAttack(AnimationEvent ev)
             {
-                if (!IsInRangePlayer()) return;
+                var dis =
+                    (Context._playerActor.transform.position - Context.transform.position).sqrMagnitude;
+                if (!IsInRangePlayer(dis)) return;
 
                 Context._playerActor.PublishActorEvent(new DamageEvent
                 {
@@ -46,11 +48,30 @@ namespace Actor.Enemy
             protected override void Update()
             {
                 var time = Time.time - _lastAttackTime;
-                if (time > Context.attackIntervalBase && IsInRangePlayer())
+                var dis =
+                    (Context._playerActor.transform.position - Context.transform.position).sqrMagnitude;
+                if (IsInRangePlayer(dis)) // 攻撃範囲内なら
                 {
+                    if (time < Context.attackIntervalBase) return;
+                    
                     _lastAttackTime = Time.time - Random.Range(0.3f, 0f);
                     Attack();
+                    return;
                 }
+                if (dis < Mathf.Pow(Context.playerSearchRange, 2)) // 索敵範囲内なら
+                {
+                    var pos = Context._rigid.position;
+                    var pPos = (Vector2)Context._playerActor.transform.position;
+                    
+                    // プレイヤーの位置が動ける範囲内ならプレイヤーの方向に動く
+                    if ((Context._initPos - pPos).sqrMagnitude < Mathf.Pow(Context.moveRange, 2))
+                    {
+                        Context._rigid.MovePosition(pos + (pPos - pos) * (Context.moveSpeed * Time.deltaTime));
+                        return;
+                    }
+                }
+
+                StateMachine.SendEvent(EnemyState.Idle);
             }
 
             private void Attack()
@@ -62,13 +83,10 @@ namespace Actor.Enemy
             ///     プレイヤーとの距離が攻撃可能な距離か
             /// </summary>
             /// <returns></returns>
-            private bool IsInRangePlayer()
+            private bool IsInRangePlayer(float distance)
             {
                 var range = Context._animator.GetFloat(AnimIdAttackRange);
-                var playerRangeSqr =
-                    (Context._playerActor.transform.position - Context.transform.position).sqrMagnitude;
-
-                return Mathf.Pow(range, 2) >= playerRangeSqr;
+                return Mathf.Pow(range, 2) >= distance;
             }
         }
     }

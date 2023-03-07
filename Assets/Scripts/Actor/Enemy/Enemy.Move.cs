@@ -12,7 +12,7 @@ namespace Actor.Enemy
         private float moveRange = 5f;
 
         [SerializeField] private float reachedRange = 1f;
-
+        [SerializeField] private float playerSearchRange = 2f;
         [SerializeField] private LayerMask obstacleLayer;
 
         private class MoveState : ImtStateMachine<Enemy, EnemyState>.State
@@ -33,6 +33,20 @@ namespace Actor.Enemy
 
                 var dir = _destination - pos;
                 Context._rigid.MovePosition(pos + dir.normalized * (Context.moveSpeed * Time.deltaTime));
+                
+                TransitionAttack();
+            }
+
+            /// <summary>
+            /// 攻撃状態に移行するか判断
+            /// </summary>
+            private void TransitionAttack()
+            {
+                var dis = (Context.transform.position - Context._playerActor.transform.position).sqrMagnitude;
+                if (dis < Mathf.Pow(Context.playerSearchRange, 2))
+                {
+                    StateMachine.SendEvent(EnemyState.Attack);
+                }   
             }
 
             private bool IsReach(in Vector2 target)

@@ -46,7 +46,6 @@ namespace Actor.Enemy
         public override void PublishActorEvent(IActorEvent ev)
         {
             _onActorEvent.OnNext(ev);
-            Debug.Log($"Publish event: {ev.GetType()}");
         }
     }
 

@@ -13,7 +13,7 @@ namespace Actor.Enemy
 
         [SerializeField] private float attackIntervalBase;
 
-        private class AttackState : ImtStateMachine<Enemy, int>.State
+        private class AttackState : ImtStateMachine<Enemy, EnemyState>.State
         {
             private static readonly int AnimIdAttackRange = Animator.StringToHash("AttackRange");
             private static readonly int AnimIdAttackTrigger = Animator.StringToHash("AttackTrigger");
@@ -55,7 +55,7 @@ namespace Actor.Enemy
 
             private void Attack()
             {
-                Context._animator.SetTrigger(AnimIdAttackRange);
+                Context._animator.SetTrigger(AnimIdAttackTrigger);
             }
 
             /// <summary>

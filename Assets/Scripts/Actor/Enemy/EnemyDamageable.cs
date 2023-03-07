@@ -15,10 +15,10 @@ namespace Actor.Enemy
         private void TakeDamage(DamageEvent ev)
         {
             CurrentHp = Mathf.Clamp(CurrentHp - ev.Damage, 0, maxHp.GetValue(_enemy.Level));
-            if (CurrentHp <= 0) Death();
+            if (CurrentHp <= 0) _enemy.PublishActorEvent(new DeathEvent());
         }
 
-        private void Death()
+        private void Death(DeathEvent ev)
         {
             throw new NotImplementedException();
         }
@@ -27,11 +27,18 @@ namespace Actor.Enemy
         {
             TryGetComponent(out _enemy);
             _enemy.OnActorEvent
-                .Where(ev => ev.GetType() == typeof(DamageEvent))
-                .Subscribe(ev => TakeDamage(ev as DamageEvent))
+                .Where(ev => ev is DamageEvent)
+                .Select(ev => ev as DamageEvent)
+                .Subscribe(TakeDamage)
+                .AddTo(this);
+            _enemy.OnActorEvent
+                .Where(ev => ev is DeathEvent)
+                .Select(ev => ev as DeathEvent)
+                .Subscribe(Death)
                 .AddTo(this);
             
             MaxHp = maxHp.GetValue(_enemy.Level);
+            CurrentHp = MaxHp;
         }
     }
 }

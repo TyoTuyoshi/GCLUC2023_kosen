@@ -6,7 +6,7 @@ namespace Item.Weapon
     ///     武器データを保存するスクリプタブルオブジェクト
     /// </summary>
     [CreateAssetMenu(fileName = "WeaponData", menuName = "Data/Weapon", order = 0)]
-    public class WeaponData : ScriptableObject, IItemData
+    public class WeaponData : ItemDataScriptable
     {
         [SerializeField] private string weaponName;
         [SerializeField] private string description;
@@ -19,9 +19,9 @@ namespace Item.Weapon
         /// </summary>
         public float AttackPower => attackPower;
 
-        public string Name => weaponName;
-        public string Description => description;
-        public ItemRare Rare => rare;
-        public Sprite ItemSprite => sprite;
+        public override string Name => weaponName;
+        public override string Description => description;
+        public override ItemRare Rare => rare;
+        public override Sprite ItemSprite => sprite;
     }
 }

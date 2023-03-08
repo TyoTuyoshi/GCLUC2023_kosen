@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Item
@@ -26,5 +27,13 @@ namespace Item
         ///     アイテムのスプライト
         /// </summary>
         public Sprite ItemSprite { get; }
+    }
+
+    public abstract class ItemDataScriptable : ScriptableObject, IItemData
+    {
+        public abstract string Name { get; }
+        public abstract string Description { get; }
+        public abstract ItemRare Rare { get; }
+        public abstract Sprite ItemSprite { get; }
     }
 }

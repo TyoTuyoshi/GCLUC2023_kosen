@@ -64,6 +64,14 @@ namespace Sounds
         }
 
         /// <summary>
+        /// UI効果音の再生
+        /// </summary>
+        public void PlayUIOneShot(SeEnum seType, float scale = 0.8f)
+        {
+            _soundDict[(int)seType].PlayOneShot(uiSource, scale);
+        }
+
+        /// <summary>
         ///     BGMの変更、現在かかっているものとクロスフェードして再生
         /// </summary>
         public void ChangeBgm(BgmEnum bgmType, float fadeSec = 1f, float scale = 0.8f)

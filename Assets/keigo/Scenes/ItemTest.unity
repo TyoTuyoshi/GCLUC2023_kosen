@@ -415,7 +415,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 9a6f5552305f9734487f1b83b5d3cd59, type: 2}
-  _renderer: {fileID: 1698062182}
 --- !u!212 &1698062182
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Item
@@ -24,9 +23,9 @@ namespace Item
         public ItemRare Rare { get; }
 
         /// <summary>
-        ///     アイテムのスプライト
+        /// このアイテムのプレファブオブジェクト
         /// </summary>
-        public Sprite ItemSprite { get; }
+        public IItem ItemPrefab { get; }
     }
 
     public abstract class ItemDataScriptable : ScriptableObject, IItemData
@@ -34,6 +33,6 @@ namespace Item
         public abstract string Name { get; }
         public abstract string Description { get; }
         public abstract ItemRare Rare { get; }
-        public abstract Sprite ItemSprite { get; }
+        public abstract IItem ItemPrefab { get; }
     }
 }

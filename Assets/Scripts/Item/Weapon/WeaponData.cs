@@ -11,8 +11,8 @@ namespace Item.Weapon
         [SerializeField] private string weaponName;
         [SerializeField] private string description;
         [SerializeField] private ItemRare rare;
-        [SerializeField] private Sprite sprite;
         [SerializeField] private float attackPower;
+        [SerializeField] private Weapon itemPrefab;
 
         /// <summary>
         ///     武器の攻撃力
@@ -22,6 +22,6 @@ namespace Item.Weapon
         public override string Name => weaponName;
         public override string Description => description;
         public override ItemRare Rare => rare;
-        public override Sprite ItemSprite => sprite;
+        public override IItem ItemPrefab => itemPrefab;
     }
 }

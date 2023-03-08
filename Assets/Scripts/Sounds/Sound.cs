@@ -15,6 +15,7 @@ namespace Sounds
     {
         public string Label { get; }
         public void PlayOneShot(AudioSource source, float scale);
+        public void Play(AudioSource source);
     }
 
     public class SoundEffect : ISoundEffect
@@ -34,6 +35,14 @@ namespace Sounds
         {
             _instance ??= await Addressables.LoadAssetAsync<AudioClip>(Clip);
             source.PlayOneShot(_instance, scale);
+        }
+
+        public async void Play(AudioSource source)
+        {
+            _instance ??= await Addressables.LoadAssetAsync<AudioClip>(Clip);
+            source.Stop();
+            source.clip = _instance;
+            source.Play();
         }
 
         public string Label => _label ??= AssetDatabase
@@ -65,6 +74,14 @@ namespace Sounds
             _instances ??= (await Addressables.LoadAssetsAsync<AudioClip>(clips, _ => { })).ToArray();
 
             source.PlayOneShot(_instances[Random.Range(0, _instances.Length)], scale);
+        }
+
+        public async void Play(AudioSource source)
+        {
+            _instances ??= (await Addressables.LoadAssetsAsync<AudioClip>(clips, _ => { })).ToArray();
+            source.Stop();
+            source.clip = _instances[Random.Range(0, _instances.Length)];
+            source.Play();
         }
 
         public string Label => label;

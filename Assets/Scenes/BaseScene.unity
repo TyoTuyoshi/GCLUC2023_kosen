@@ -374,42 +374,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8717467247665497586, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
-      propertyPath: seSource
-      value: 
-      objectReference: {fileID: 1465271197}
+      propertyPath: bgmList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8717467247665497586, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
-      propertyPath: uiSource
-      value: 
-      objectReference: {fileID: 1465271195}
-    - target: {fileID: 8717467247665497586, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
-      propertyPath: bgmSource
-      value: 
-      objectReference: {fileID: 1465271196}
-    - target: {fileID: 8717467247665497586, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
-      propertyPath: audioMixer
-      value: 
-      objectReference: {fileID: 24100000, guid: 5defaaef2ff1c154696692fc443d18de, type: 2}
+      propertyPath: bgmList.Array.data[1].m_AssetGUID
+      value: 49e37fd8ed46c154d8fd978140ca59db
+      objectReference: {fileID: 0}
     - target: {fileID: 8717467247665497587, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
---- !u!82 &1465271195 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8717467247353903039, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
-  m_PrefabInstance: {fileID: 1465271194}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1465271196 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8717467247679791970, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
-  m_PrefabInstance: {fileID: 1465271194}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1465271197 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8717467248400428793, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
-  m_PrefabInstance: {fileID: 1465271194}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1679850814
 GameObject:
   m_ObjectHideFlags: 0

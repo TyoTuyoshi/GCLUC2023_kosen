@@ -5,6 +5,11 @@ namespace Sounds
     {
         Click_UI,
 Hevy_Attack1,
-Jump
+Jump,
+Pick_Item,
+Shot_Bullet,
+FootStep,
+Zombie,
+LightAttack
     }
 }

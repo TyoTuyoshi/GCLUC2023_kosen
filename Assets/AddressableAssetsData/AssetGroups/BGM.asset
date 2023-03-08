@@ -18,7 +18,11 @@ MonoBehaviour:
   m_GUID: 801a44bc795ec1b45bb36ba5a92f02a0
   m_SerializeEntries:
   - m_GUID: 3fea0d58a59683441b55bfb4ff52e72f
-    m_Address: Silent-Avalon_loop
+    m_Address: SilentAvalon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 49e37fd8ed46c154d8fd978140ca59db
+    m_Address: Epilogue
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

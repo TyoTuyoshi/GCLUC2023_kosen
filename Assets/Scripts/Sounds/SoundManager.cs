@@ -20,15 +20,21 @@ namespace Sounds
 
         [SerializeField] private GroupSoundEffect[] groupSoundEffects;
         [SerializeField] private AssetReferenceT<AudioClip>[] bgmList;
+
         private Dictionary<int, ISoundEffect> _bgmDict;
         private Tween _bgmFadeTween;
-        private AudioGroup _currentBgmSource = AudioGroup.Bgm1Volume;
+        private int _currentBgmSource = 1;
         private Dictionary<int, ISoundEffect> _soundDict;
         public static SoundManager Instance => _instance ??= FindObjectOfType<SoundManager>();
 
-        private void Start()
+        private void Awake()
         {
             InitDict();
+        }
+
+        private void OnDestroy()
+        {
+            _instance = null;
         }
 
         /// <summary>
@@ -45,8 +51,8 @@ namespace Sounds
         /// </summary>
         public void SetVolume(AudioGroup group, float value)
         {
-            var vol = Mathf.Clamp(value, 0, 1) * 80 - 80;
-            audioMixer.SetFloat(group.GetString(), vol);
+            var vol = Mathf.Clamp(value, 0, 1);
+            audioMixer.SetFloat(group.GetString(), vol * 80 - 80);
         }
 
         /// <summary>
@@ -66,27 +72,27 @@ namespace Sounds
             if (_bgmFadeTween.IsActive() && !_bgmFadeTween.IsComplete()) _bgmFadeTween.Complete();
 
             var target = _bgmDict[(int)bgmType];
-            target.Play(_currentBgmSource == AudioGroup.Bgm1Volume ? bgmSource2 : bgmSource1);
+            target.Play(_currentBgmSource == 1 ? bgmSource2 : bgmSource1);
 
             // クロスフェードさせながら音量が0になったものはストップ
-            var endValue = _currentBgmSource == AudioGroup.Bgm1Volume ? 0 : 1;
+            var endValue = _currentBgmSource == 1 ? 0 : 1;
             _bgmFadeTween = DOTween.Sequence()
-                .Append(DOTween.To(() => GetVolume(AudioGroup.Bgm1Volume), v => SetVolume(AudioGroup.Bgm1Volume, v),
+                .Append(DOTween.To(() => GetVolume(AudioGroup.BgmVolume1),
+                    v => SetVolume(AudioGroup.BgmVolume1, v),
                     endValue, fadeSec).OnComplete(() =>
                 {
-                    if (_currentBgmSource == AudioGroup.Bgm1Volume) bgmSource2.Stop();
+                    if (_currentBgmSource == 1) bgmSource2.Stop();
                 }))
-                .Join(DOTween.To(() => GetVolume(AudioGroup.Bgm2Volume), v => SetVolume(AudioGroup.Bgm2Volume, v),
+                .Join(DOTween.To(() => GetVolume(AudioGroup.BgmVolume2),
+                    v => SetVolume(AudioGroup.BgmVolume2, v),
                     1 - endValue, fadeSec).OnComplete(() =>
                 {
-                    if (_currentBgmSource == AudioGroup.Bgm2Volume) bgmSource1.Stop();
+                    if (_currentBgmSource == 2) bgmSource1.Stop();
                 }))
                 .Play()
                 .SetLink(gameObject);
 
-            _currentBgmSource = _currentBgmSource == AudioGroup.Bgm1Volume
-                ? AudioGroup.Bgm2Volume
-                : AudioGroup.Bgm1Volume;
+            _currentBgmSource = _currentBgmSource == 1 ? 2 : 1;
         }
 
         private void InitDict()
@@ -117,8 +123,9 @@ namespace Sounds
     {
         MasterVolume,
         SeVolume,
-        Bgm1Volume,
-        Bgm2Volume,
+        BgmVolume,
+        BgmVolume1,
+        BgmVolume2,
         UiVolume
     }
 
@@ -130,8 +137,9 @@ namespace Sounds
             {
                 AudioGroup.MasterVolume => "MasterVolume",
                 AudioGroup.SeVolume => "SeVolume",
-                AudioGroup.Bgm1Volume => "Bgm1Volume",
-                AudioGroup.Bgm2Volume => "Bgm2Volume",
+                AudioGroup.BgmVolume => "BgmVolume",
+                AudioGroup.BgmVolume1 => "BgmVolume1",
+                AudioGroup.BgmVolume2 => "BgmVolume2",
                 AudioGroup.UiVolume => "UiVolume",
                 _ => throw new ArgumentOutOfRangeException(nameof(group), group, null)
             };
@@ -167,6 +175,9 @@ namespace Sounds
                 _selectedBgm = (BgmEnum)EditorGUILayout.EnumPopup(_selectedBgm);
                 if (GUILayout.Button("Play")) manager!.ChangeBgm(_selectedBgm);
             }
+
+            manager!.SetVolume(AudioGroup.BgmVolume,
+                EditorGUILayout.Slider("BGM Volume", manager!.GetVolume(AudioGroup.BgmVolume), 0f, 1f));
         }
     }
 #endif

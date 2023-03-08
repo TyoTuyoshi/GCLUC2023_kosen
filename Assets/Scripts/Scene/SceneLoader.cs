@@ -23,7 +23,7 @@ namespace Scene
             fadePanel.enabled = false;
         }
 
-        [RuntimeInitializeOnLoadMethod]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void LoadBaseScene()
         {
             var activeScene = SceneManager.GetActiveScene();

@@ -11,10 +11,10 @@ namespace Actor.Enemy
         private readonly Subject<IActorEvent> _onActorEvent = new();
 
         private Animator _animator;
+        private Vector2 _initPos; // 初期状態の座標
         private ActorBase _playerActor;
         private Rigidbody2D _rigid;
         private ImtStateMachine<Enemy, EnemyState> _stateMachine;
-        private Vector2 _initPos; // 初期状態の座標
         public IObservable<IActorEvent> OnActorEvent => _onActorEvent;
         public string CurrentStateName => _stateMachine.CurrentStateName;
 
@@ -34,8 +34,11 @@ namespace Actor.Enemy
             _stateMachine.AddTransition<AttackState, IdleState>(EnemyState.Idle);
             _stateMachine.AddTransition<IdleState, AttackState>(EnemyState.Attack);
             _stateMachine.AddTransition<MoveState, AttackState>(EnemyState.Attack);
+            _stateMachine.AddAnyTransition<DeathState>(EnemyState.Death);
 
             _stateMachine.SetStartState<IdleState>();
+
+            RegisterEvents();
         }
 
         private void Update()
@@ -47,13 +50,22 @@ namespace Actor.Enemy
         {
             _onActorEvent.OnNext(ev);
         }
+
+        private void RegisterEvents()
+        {
+            OnActorEvent
+                .Where(e => e is DeathEvent)
+                .Subscribe(_ => _stateMachine.SendEvent(EnemyState.Death))
+                .AddTo(this);
+        }
     }
 
     internal enum EnemyState
     {
         Move,
         Attack,
-        Idle
+        Idle,
+        Death
     }
 
 #if UNITY_EDITOR

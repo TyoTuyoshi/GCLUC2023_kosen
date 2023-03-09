@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Yuki/Scene/Stage1.unity
     guid: d2a66d912832ed34cb39419fac2adac0
+  - enabled: 1
+    path: Assets/Yuki/Scene/Stage2.unity
+    guid: 5f55b4eff3d4bdf4085918cb2b41ba56
   m_configObjects: {}

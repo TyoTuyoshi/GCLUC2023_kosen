@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: backGround
+    uniqueID: 2827638453
+    locked: 0
+  - name: Stage
+    uniqueID: 1918019841
+    locked: 0
+  - name: Enemy
+    uniqueID: 2082812281
+    locked: 0
+  - name: Player
+    uniqueID: 2573259751
+    locked: 0
+  - name: Item
+    uniqueID: 2993911929
+    locked: 0

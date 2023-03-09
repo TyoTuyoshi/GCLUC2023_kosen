@@ -23,8 +23,18 @@ namespace Actor
         public string EventName { get; init; }
     }
 
+    /// <summary>
+    ///     動けなくなるイベント
+    /// </summary>
+    public class StanEvent : IActorEvent
+    {
+        /// <summary>
+        ///     動けなくなる時間
+        /// </summary>
+        public float StanDuration { get; init; }
+    }
+
     internal class DeathEvent : IActorEvent
     {
-        
     }
 }

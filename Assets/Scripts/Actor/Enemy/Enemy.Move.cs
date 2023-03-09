@@ -33,20 +33,25 @@ namespace Actor.Enemy
 
                 var dir = _destination - pos;
                 Context._rigid.MovePosition(pos + dir.normalized * (Context.moveSpeed * Time.deltaTime));
-                
+
+                // 移動方向を向く
+                var euler = Context.transform.rotation.eulerAngles;
+                if (Context._rigid.position.x < dir.x)
+                    euler.y = -180;
+                else
+                    euler.y = 0;
+                Context.transform.rotation = Quaternion.Euler(euler);
+
                 TransitionAttack();
             }
 
             /// <summary>
-            /// 攻撃状態に移行するか判断
+            ///     攻撃状態に移行するか判断
             /// </summary>
             private void TransitionAttack()
             {
                 var dis = (Context.transform.position - Context._playerActor.transform.position).sqrMagnitude;
-                if (dis < Mathf.Pow(Context.playerSearchRange, 2))
-                {
-                    StateMachine.SendEvent(EnemyState.Attack);
-                }   
+                if (dis < Mathf.Pow(Context.playerSearchRange, 2)) StateMachine.SendEvent(EnemyState.Attack);
             }
 
             private bool IsReach(in Vector2 target)
@@ -60,7 +65,8 @@ namespace Actor.Enemy
                 var range = Context.moveRange;
                 var randomPos = Vector2.zero;
                 while (randomPos.sqrMagnitude == 0 || !IsReach(randomPos))
-                    randomPos = Context._initPos + new Vector2(Random.Range(-range, range), Random.Range(-range, range));
+                    randomPos = Context._initPos +
+                                new Vector2(Random.Range(-range, range), Random.Range(-range, range));
 
                 return randomPos;
             }

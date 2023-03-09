@@ -1,13 +1,17 @@
 using System;
+using System.Linq;
 using IceMilkTea.Core;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
+using Utils;
 
 namespace Actor.Enemy
 {
     public partial class Enemy : ActorBase
     {
+        [SerializeField] private Pair<EnemyState, string>[] animateStates;
+
         private readonly Subject<IActorEvent> _onActorEvent = new();
 
         private Animator _animator;
@@ -37,11 +41,20 @@ namespace Actor.Enemy
             _stateMachine.AddAnyTransition<DeathState>(EnemyState.Death);
 
             _stateMachine.SetStartState<IdleState>();
+            _stateMachine
+                .ObserveEveryValueChanged(v => v.LastAcceptedEventID)
+                .Subscribe(state =>
+                {
+                    if (animateStates.FirstOrDefault(v => v.First == state) is not { } animState) return;
+                    Debug.Log(animState.Second, gameObject);
+                    _animator.CrossFade(animState.Second, 0.2f);
+                })
+                .AddTo(this);
 
             RegisterEvents();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             _stateMachine.Update();
         }

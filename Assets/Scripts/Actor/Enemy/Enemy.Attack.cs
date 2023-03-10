@@ -17,15 +17,17 @@ namespace Actor.Enemy
         {
             private static readonly int AnimIdAttackRange = Animator.StringToHash("AttackRange");
             private static readonly int AnimIdAttackTrigger = Animator.StringToHash("AttackTrigger");
-            private IDisposable _animEvent;
+            private CompositeDisposable _disposable;
+            
             private float _lastAttackTime;
 
             protected override void Enter()
             {
-                _animEvent = Context.OnActorEvent
+                Context.OnActorEvent
                     .Where(ev => ev is AnimationEvent { EventName: "HitAttack" })
                     .Select(ev => ev as AnimationEvent)
-                    .Subscribe(HitAttack);
+                    .Subscribe(HitAttack)
+                    .AddTo(_disposable);
             }
 
             private void HitAttack(AnimationEvent ev)
@@ -42,7 +44,7 @@ namespace Actor.Enemy
 
             protected override void Exit()
             {
-                _animEvent.Dispose();
+                _disposable.Dispose();
             }
 
             private void LookAtPlayer()

@@ -12,6 +12,7 @@ namespace Gimmick
         [Tooltip("反応する距離")] [SerializeField] private float effectDistance = 1f;
 
         [SerializeField] private float stanDurationSec = 1f;
+        [SerializeField] private LayerMask gimmickLayer;
 
         private void Start()
         {
@@ -23,6 +24,7 @@ namespace Gimmick
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (!col.TryGetComponent(out ActorBase actor)) return;
+            if ((actor.gameObject.layer & gimmickLayer) != 0) return;
 
             actor.PublishActorEvent(new StanEvent
             {

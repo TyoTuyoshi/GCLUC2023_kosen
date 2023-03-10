@@ -109,10 +109,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 240
+        width: 48
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -128,12 +128,12 @@ TextureImporter:
       name: PunchImp1_1
       rect:
         serializedVersion: 2
-        x: 50
+        x: 48
         y: 0
-        width: 50
+        width: 48
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -149,12 +149,12 @@ TextureImporter:
       name: PunchImp1_2
       rect:
         serializedVersion: 2
-        x: 100
+        x: 96
         y: 0
-        width: 50
+        width: 48
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -170,12 +170,12 @@ TextureImporter:
       name: PunchImp1_3
       rect:
         serializedVersion: 2
-        x: 150
+        x: 144
         y: 0
-        width: 50
+        width: 48
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,6 +183,27 @@ TextureImporter:
       bones: []
       spriteID: ba856fa43401a7944aa09262b7b078fd
       internalID: 508792707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PunchImp1_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a67ed4c6e738dd4485348a5a2d4422c
+      internalID: 1562793715
       vertices: []
       indices: 
       edges: []
@@ -202,6 +223,7 @@ TextureImporter:
       PunchImp1_0: 1254145110
       PunchImp1_3: 508792707
       PunchImp1_1: 808822437
+      PunchImp1_4: 1562793715
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

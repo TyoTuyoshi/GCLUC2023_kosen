@@ -38,8 +38,9 @@ namespace Gimmick
             var cnt = Physics2D.CircleCast(transform.position, explosionRange, Vector2.zero, contactFilter, result);
             if (cnt == 0) return;
 
-            foreach (var hit in result)
+            for (var i = 0; i < cnt; i++)
             {
+                var hit = result[i];
                 if (!hit.transform.TryGetComponent(out ActorBase actor)) continue;
                 actor.PublishActorEvent(new DamageEvent
                 {
@@ -47,6 +48,7 @@ namespace Gimmick
                     KnockBackDir = (hit.rigidbody.position - (Vector2)transform.position).normalized * explosionPower
                 });
             }
+            Destroy(gameObject);
         }
 
         private void OnDrawGizmosSelected()

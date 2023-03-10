@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
@@ -8,14 +9,17 @@ namespace Actor.Enemy
     {
         [SerializeField] private GrowValue maxHp;
         private Enemy _enemy;
+        private Rigidbody2D _rigid;
 
         private void Start()
         {
             TryGetComponent(out _enemy);
+            TryGetComponent(out _rigid);
+
             _enemy.OnActorEvent
                 .Where(ev => ev is DamageEvent)
                 .Select(ev => ev as DamageEvent)
-                .Subscribe(TakeDamage)
+                .Subscribe(OnDamage)
                 .AddTo(this);
             _enemy.OnActorEvent
                 .Where(ev => ev is DeathEvent)
@@ -30,9 +34,15 @@ namespace Actor.Enemy
         public float MaxHp { get; private set; }
         public float CurrentHp { get; private set; }
 
-        private void TakeDamage(DamageEvent ev)
+        private void OnDamage(DamageEvent ev)
         {
             CurrentHp = Mathf.Clamp(CurrentHp - ev.Damage, 0, maxHp.GetValue(_enemy.Level));
+
+            // ノックバック
+            _rigid.AddForce(ev.KnockBackDir, ForceMode2D.Impulse);
+            // 一定時間後にリセット
+            DOVirtual.DelayedCall(1f, () => _rigid.velocity = Vector2.zero).SetLink(gameObject);
+
             if (CurrentHp <= 0) _enemy.PublishActorEvent(new DeathEvent());
         }
 
@@ -49,7 +59,7 @@ namespace Actor.Enemy
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            
+
             if (!Application.isPlaying) return;
 
             var damageable = target as EnemyDamageable;

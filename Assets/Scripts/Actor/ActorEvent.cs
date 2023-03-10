@@ -40,4 +40,12 @@ namespace Actor
     internal class DeathEvent : IActorEvent
     {
     }
+
+    public class HealEvent : IActorEvent
+    {
+        /// <summary>
+        ///     回復量
+        /// </summary>
+        public float Amount { get; init; }
+    }
 }

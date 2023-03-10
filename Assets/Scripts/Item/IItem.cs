@@ -1,3 +1,5 @@
+using Actor;
+
 namespace Item
 {
     /// <summary>
@@ -15,6 +17,6 @@ namespace Item
         /// <summary>
         /// アイテムを使用したときの処理
         /// </summary>
-        public void Use();
+        public void Use(ActorBase actor);
     }
 }

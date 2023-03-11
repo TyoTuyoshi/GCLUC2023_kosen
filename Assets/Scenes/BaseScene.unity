@@ -378,8 +378,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8717467247665497586, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
+      propertyPath: soundEffects.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717467247665497586, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
       propertyPath: bgmList.Array.data[1].m_AssetGUID
       value: 49e37fd8ed46c154d8fd978140ca59db
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717467247665497586, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
+      propertyPath: soundEffects.Array.data[5].m_AssetGUID
+      value: 3e9793b534074894997ff8e099ab2fc0
       objectReference: {fileID: 0}
     - target: {fileID: 8717467247665497587, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
       propertyPath: m_Name

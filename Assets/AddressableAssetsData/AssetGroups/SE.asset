@@ -81,6 +81,10 @@ MonoBehaviour:
     m_Address: Zombie3
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 3e9793b534074894997ff8e099ab2fc0
+    m_Address: Explosion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 68e0ca2958c51404bb2d9be0b755479d, type: 2}
   m_SchemaSet:

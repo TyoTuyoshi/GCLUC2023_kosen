@@ -28,6 +28,5 @@ public class PlayerController : MonoBehaviour
         }
 
         _animator.SetFloat("run", Mathf.Abs(m.magnitude));
-        
     }
 }

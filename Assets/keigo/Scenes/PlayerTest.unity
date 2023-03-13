@@ -266,6 +266,30 @@ PrefabInstance:
       propertyPath: jumpPower
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: animStates.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: animStates.Array.data[1].first
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: animStates.Array.data[2].first
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: animStates.Array.data[0].second
+      value: Idle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: animStates.Array.data[1].second
+      value: Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: animStates.Array.data[2].second
+      value: Walk
+      objectReference: {fileID: 0}
     - target: {fileID: 1952915347162447409, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
       propertyPath: m_Name
       value: PlayerTest

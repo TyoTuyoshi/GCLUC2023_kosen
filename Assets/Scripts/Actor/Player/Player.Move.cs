@@ -24,7 +24,11 @@ namespace Actor.Player
                 pos = Move(pos);
                 pos = Jump(pos);
 
-                Context._rigid.MovePosition(pos);
+                // 動きがないならIdleに遷移
+                if (pos == Context._rigid.position)
+                    Context.ChangeState(PlayerState.Idle);
+                else
+                    Context._rigid.MovePosition(pos);
             }
 
             private Vector2 Move(Vector2 current)

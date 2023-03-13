@@ -3,7 +3,7 @@ using UniRx;
 
 namespace Actor.Player
 {
-    public class Player : ActorBase
+    public partial class Player : ActorBase
     {
         private readonly Subject<IActorEvent> _onActorEvent = new();
         public override int Level => 1;

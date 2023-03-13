@@ -1,26 +1,21 @@
-using System;
 using System.Linq;
 using IceMilkTea.Core;
-using UniRx;
 using UnityEditor;
 using UnityEngine;
 using Utils;
 
 namespace Actor.Enemy
 {
-    public partial class Enemy : ActorBase
+    public partial class Enemy : ActorBase, IDamageableActor
     {
         [SerializeField] private Pair<EnemyState, string>[] animateStates;
 
-        private readonly Subject<IActorEvent> _onActorEvent = new();
-
         private Animator _animator;
         private Vector2 _initPos; // 初期状態の座標
-        private float _LastPlayerSearched;
+        private float _lastPlayerSearched;
         private ActorBase _playerActor;
         private Rigidbody2D _rigid;
         private ImtStateMachine<Enemy, EnemyState> _stateMachine;
-        public IObservable<IActorEvent> OnActorEvent => _onActorEvent;
         public string CurrentStateName => _stateMachine.CurrentStateName;
 
         public override int Level => 1; // TODO 
@@ -41,17 +36,8 @@ namespace Actor.Enemy
             _stateMachine.AddAnyTransition<DeathState>(EnemyState.Death);
 
             _stateMachine.SetStartState<IdleState>();
-            _stateMachine
-                .ObserveEveryValueChanged(v => v.LastAcceptedEventID)
-                .Subscribe(state =>
-                {
-                    if (animateStates.FirstOrDefault(v => v.First == state) is not { } animState) return;
-                    Debug.Log(animState.Second, gameObject);
-                    _animator.CrossFade(animState.Second, 0.2f);
-                })
-                .AddTo(this);
 
-            RegisterEvents();
+            InitDamageable();
         }
 
         private void FixedUpdate()
@@ -59,27 +45,22 @@ namespace Actor.Enemy
             // プレイヤーアクターが存在しないなら更新せずに2秒ごとに探す
             if (_playerActor == null || !_playerActor.isActiveAndEnabled)
             {
-                if (Time.time - _LastPlayerSearched < 2f) return;
-                
+                if (Time.time - _lastPlayerSearched < 2f) return;
+
                 GameObject.FindWithTag("Player")?.TryGetComponent(out _playerActor);
-                _LastPlayerSearched = Time.time;
+                _lastPlayerSearched = Time.time;
                 return;
             }
 
             _stateMachine.Update();
         }
 
-        public override void PublishActorEvent(IActorEvent ev)
+        private void ChangeState(EnemyState state)
         {
-            _onActorEvent.OnNext(ev);
-        }
+            _stateMachine.SendEvent(state);
 
-        private void RegisterEvents()
-        {
-            OnActorEvent
-                .Where(e => e is DeathEvent)
-                .Subscribe(_ => _stateMachine.SendEvent(EnemyState.Death))
-                .AddTo(this);
+            if (animateStates.FirstOrDefault(v => v.First == state) is not { } animState) return;
+            _animator.CrossFade(animState.Second, 0.2f);
         }
     }
 

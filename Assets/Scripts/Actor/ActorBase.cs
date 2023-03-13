@@ -1,28 +1,18 @@
 using System;
-using System.Net.NetworkInformation;
 using UniRx;
 using UnityEngine;
 
 namespace Actor
 {
-    public abstract class ActorBase: MonoBehaviour
+    public abstract class ActorBase : MonoBehaviour
     {
+        private readonly Subject<string> _onAnimEvent = new();
         public abstract int Level { get; }
+        protected IObservable<string> OnAnimEvent => _onAnimEvent;
 
-        public abstract void PublishActorEvent(IActorEvent ev);
-    }
-
-    public abstract class ActorBaseHelper : ActorBase
-    {
-        public override int Level => 1;
-        public override void PublishActorEvent(IActorEvent ev)
+        private void AnimEvent(string eventName)
         {
-            
-        }
-
-        protected virtual void Start()
-        {
-            
+            _onAnimEvent.OnNext(eventName);
         }
     }
 }

@@ -1,5 +1,5 @@
-using System;
 using Actor;
+using Event;
 using UniRx;
 using UnityEngine;
 
@@ -13,47 +13,33 @@ namespace Gimmick
         [SerializeField] private float explosionRange = 1f;
         [SerializeField] private float damage = 2f;
         [SerializeField] private float explosionPower = 2f;
-        [SerializeField] private ContactFilter2D contactFilter;
-
-        private readonly Subject<IActorEvent> _onActorEvent = new();
 
         public override int Level => 1;
 
         private void Start()
         {
-            _onActorEvent
-                .Where(e => e is DamageEvent)
+            AttackEvent
+                .RegisterListenerInRange(transform)
                 .Subscribe(Explosion)
                 .AddTo(this);
-        }
-
-        public override void PublishActorEvent(IActorEvent ev)
-        {
-            _onActorEvent.OnNext(ev);
-        }
-
-        private void Explosion(IActorEvent _)
-        {
-            var result = new RaycastHit2D[10];
-            var cnt = Physics2D.CircleCast(transform.position, explosionRange, Vector2.zero, contactFilter, result);
-            if (cnt == 0) return;
-
-            for (var i = 0; i < cnt; i++)
-            {
-                var hit = result[i];
-                if (!hit.transform.TryGetComponent(out ActorBase actor)) continue;
-                actor.PublishActorEvent(new DamageEvent
-                {
-                    Damage = damage,
-                    KnockBackDir = (hit.rigidbody.position - (Vector2)transform.position).normalized * explosionPower
-                });
-            }
-            Destroy(gameObject);
         }
 
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireSphere(transform.position, explosionRange);
+        }
+
+        private void Explosion(IEvent _)
+        {
+            Debug.Log("Explosion");
+            EventPublisher.Instance.PublishEvent(new AttackEvent
+            {
+                SourcePos = transform.position,
+                Amount = damage,
+                AttackRange = explosionRange,
+                KnockBackPower = explosionPower
+            });
+            Destroy(gameObject);
         }
     }
 }

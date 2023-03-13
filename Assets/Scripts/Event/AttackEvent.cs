@@ -1,4 +1,7 @@
+using System;
 using Actor;
+using UniRx;
+using UnityEngine;
 
 namespace Event
 {
@@ -7,20 +10,10 @@ namespace Event
     /// </summary>
     public class AttackEvent : IEvent
     {
-        /// <param name="source">攻撃したActor</param>
-        /// <param name="attackRange">攻撃範囲</param>
-        /// <param name="amount">攻撃で与えるダメージ量</param>
-        public AttackEvent(ActorBase source, float attackRange, float amount)
-        {
-            Source = source;
-            AttackRange = attackRange;
-            Amount = amount;
-        }
-
         /// <summary>
-        ///     攻撃をしたActor
+        ///     攻撃をしたActorの座標
         /// </summary>
-        public ActorBase Source { get; init; }
+        public Vector3 SourcePos { get; init; }
 
         /// <summary>
         ///     攻撃の範囲
@@ -33,11 +26,16 @@ namespace Event
         public float Amount { get; init; }
 
         /// <summary>
-        ///     イベント発行
+        ///     ノックバックの方向
         /// </summary>
-        public void Publish()
+        public float KnockBackPower { get; init; }
+
+        public static IObservable<AttackEvent> RegisterListenerInRange(Transform self)
         {
-            EventPublisher.Instance.PublishEvent(this);
+            return EventPublisher.Instance
+                .RegisterListener<AttackEvent>()
+                .Where(e => e.SourcePos != self.position)
+                .Where(e => (self.position - e.SourcePos).sqrMagnitude < Mathf.Pow(e.AttackRange, 2));
         }
     }
 }

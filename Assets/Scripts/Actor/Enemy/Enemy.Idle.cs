@@ -11,7 +11,7 @@ namespace Actor.Enemy
             
             protected override void Enter()
             {
-                _tween = DOVirtual.DelayedCall(1, () => StateMachine.SendEvent(EnemyState.Move));
+                _tween = DOVirtual.DelayedCall(1, () => Context.ChangeState(EnemyState.Move));
             }
 
             protected override void Exit()

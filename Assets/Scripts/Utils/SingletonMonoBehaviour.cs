@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Utils
@@ -10,7 +11,19 @@ namespace Utils
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
         private T _instance;
-        public T Instance => _instance;
+
+        public T Instance
+        {
+            get
+            {
+#if UNITY_EDITOR
+                if (_instance != null) return _instance;
+                throw new NullReferenceException($"{typeof(T).Name} は現在存在しないかAwake前に取得されようとしています");
+#else
+                return _instance;
+#endif
+            }
+        }
 
         protected virtual void Awake()
         {

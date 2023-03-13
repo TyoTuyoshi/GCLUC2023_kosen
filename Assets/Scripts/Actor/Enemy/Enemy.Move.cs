@@ -29,7 +29,7 @@ namespace Actor.Enemy
                 var pos = Context._rigid.position;
                 // 到着したならアイドルに移行
                 if ((_destination - pos).sqrMagnitude < Mathf.Pow(Context.reachedRange, 2))
-                    StateMachine.SendEvent(EnemyState.Idle);
+                    Context.ChangeState(EnemyState.Idle);
 
                 var dir = _destination - pos;
                 Context._rigid.MovePosition(pos + dir.normalized * (Context.moveSpeed * Time.deltaTime));
@@ -51,7 +51,7 @@ namespace Actor.Enemy
             private void TransitionAttack()
             {
                 var dis = (Context.transform.position - Context._playerActor.transform.position).sqrMagnitude;
-                if (dis < Mathf.Pow(Context.playerSearchRange, 2)) StateMachine.SendEvent(EnemyState.Attack);
+                if (dis < Mathf.Pow(Context.playerSearchRange, 2)) Context.ChangeState(EnemyState.Attack);
             }
 
             private bool IsReach(in Vector2 target)

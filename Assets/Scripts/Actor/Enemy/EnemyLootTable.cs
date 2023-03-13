@@ -1,6 +1,5 @@
 using System.Linq;
 using Item;
-using UniRx;
 using UnityEngine;
 using Utils;
 
@@ -14,19 +13,7 @@ namespace Actor.Enemy
         [Header("アイテムと確率を設定")] [SerializeField]
         private Pair<ItemDataScriptable, float>[] dropItems;
 
-        private Enemy _enemy;
-
-        private void Start()
-        {
-            TryGetComponent(out _enemy);
-
-            _enemy.OnActorEvent
-                .Where(e => e is DeathEvent)
-                .Subscribe(OnDeath)
-                .AddTo(this);
-        }
-
-        private void OnDeath(IActorEvent e)
+        public void OnDeath()
         {
             if (dropItems.Length == 0) return;
 
@@ -47,7 +34,6 @@ namespace Actor.Enemy
 
         private void DropItem(IItemData data)
         {
-            Debug.Log(data.ItemPrefab.GetType());
             if (data.ItemPrefab is not MonoBehaviour prefab) return;
 
             Instantiate(prefab, transform.position, Quaternion.identity);

@@ -1,4 +1,5 @@
 using System;
+using Actor;
 using UnityEngine;
 
 namespace Item.Weapon
@@ -15,7 +16,7 @@ namespace Item.Weapon
             throw new NotImplementedException();
         }
 
-        public void Use()
+        public void Use(ActorBase actor)
         {
             throw new NotImplementedException();
         }

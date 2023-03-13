@@ -1,17 +1,22 @@
 using System;
+using System.Linq;
 using IceMilkTea.Core;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
+using Utils;
 
 namespace Actor.Enemy
 {
     public partial class Enemy : ActorBase
     {
+        [SerializeField] private Pair<EnemyState, string>[] animateStates;
+
         private readonly Subject<IActorEvent> _onActorEvent = new();
 
         private Animator _animator;
         private Vector2 _initPos; // 初期状態の座標
+        private float _LastPlayerSearched;
         private ActorBase _playerActor;
         private Rigidbody2D _rigid;
         private ImtStateMachine<Enemy, EnemyState> _stateMachine;
@@ -24,7 +29,6 @@ namespace Actor.Enemy
         {
             TryGetComponent(out _animator);
             TryGetComponent(out _rigid);
-            GameObject.FindWithTag("Player").TryGetComponent(out _playerActor);
             _initPos = _rigid.position;
 
             _stateMachine = new ImtStateMachine<Enemy, EnemyState>(this);
@@ -37,12 +41,31 @@ namespace Actor.Enemy
             _stateMachine.AddAnyTransition<DeathState>(EnemyState.Death);
 
             _stateMachine.SetStartState<IdleState>();
+            _stateMachine
+                .ObserveEveryValueChanged(v => v.LastAcceptedEventID)
+                .Subscribe(state =>
+                {
+                    if (animateStates.FirstOrDefault(v => v.First == state) is not { } animState) return;
+                    Debug.Log(animState.Second, gameObject);
+                    _animator.CrossFade(animState.Second, 0.2f);
+                })
+                .AddTo(this);
 
             RegisterEvents();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
+            // プレイヤーアクターが存在しないなら更新せずに2秒ごとに探す
+            if (_playerActor == null || !_playerActor.isActiveAndEnabled)
+            {
+                if (Time.time - _LastPlayerSearched < 2f) return;
+                
+                GameObject.FindWithTag("Player")?.TryGetComponent(out _playerActor);
+                _LastPlayerSearched = Time.time;
+                return;
+            }
+
             _stateMachine.Update();
         }
 

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
@@ -8,19 +9,27 @@ namespace Actor.Enemy
     {
         [SerializeField] private GrowValue maxHp;
         private Enemy _enemy;
+        private Rigidbody2D _rigid;
 
         private void Start()
         {
             TryGetComponent(out _enemy);
+            TryGetComponent(out _rigid);
+
             _enemy.OnActorEvent
-                .Where(ev => ev is DamageEvent)
-                .Select(ev => ev as DamageEvent)
-                .Subscribe(TakeDamage)
+                .Where(e => e is DamageEvent)
+                .Select(e => e as DamageEvent)
+                .Subscribe(OnDamage)
                 .AddTo(this);
             _enemy.OnActorEvent
-                .Where(ev => ev is DeathEvent)
-                .Select(ev => ev as DeathEvent)
+                .Where(e => e is DeathEvent)
+                .Select(e => e as DeathEvent)
                 .Subscribe(Death)
+                .AddTo(this);
+            _enemy.OnActorEvent
+                .Where(e => e is HealEvent)
+                .Select(e => e as HealEvent)
+                .Subscribe(OnHeal)
                 .AddTo(this);
 
             MaxHp = maxHp.GetValue(_enemy.Level);
@@ -30,13 +39,24 @@ namespace Actor.Enemy
         public float MaxHp { get; private set; }
         public float CurrentHp { get; private set; }
 
-        private void TakeDamage(DamageEvent ev)
+        private void OnHeal(HealEvent e)
         {
-            CurrentHp = Mathf.Clamp(CurrentHp - ev.Damage, 0, maxHp.GetValue(_enemy.Level));
+            CurrentHp = Mathf.Clamp(CurrentHp + e.Amount, 0, maxHp.GetValue(_enemy.Level));
+        }
+
+        private void OnDamage(DamageEvent e)
+        {
+            CurrentHp = Mathf.Clamp(CurrentHp - e.Damage, 0, maxHp.GetValue(_enemy.Level));
+
+            // ノックバック
+            _rigid.AddForce(e.KnockBackDir, ForceMode2D.Impulse);
+            // 一定時間後にリセット
+            DOVirtual.DelayedCall(1f, () => _rigid.velocity = Vector2.zero).SetLink(gameObject);
+
             if (CurrentHp <= 0) _enemy.PublishActorEvent(new DeathEvent());
         }
 
-        private void Death(DeathEvent ev)
+        private void Death(DeathEvent e)
         {
             Debug.Log("Death", gameObject);
         }
@@ -49,7 +69,7 @@ namespace Actor.Enemy
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            
+
             if (!Application.isPlaying) return;
 
             var damageable = target as EnemyDamageable;

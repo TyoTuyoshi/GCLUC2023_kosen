@@ -71,17 +71,22 @@ namespace Sounds
 
         public async void PlayOneShot(AudioSource source, float scale)
         {
-            _instances ??= (await Addressables.LoadAssetsAsync<AudioClip>(clips, _ => { })).ToArray();
-
-            source.PlayOneShot(_instances[Random.Range(0, _instances.Length)], scale);
+            source.PlayOneShot(await LoadClip(Random.Range(0, clips.Length)), scale);
         }
 
         public async void Play(AudioSource source)
         {
-            _instances ??= (await Addressables.LoadAssetsAsync<AudioClip>(clips, _ => { })).ToArray();
             source.Stop();
-            source.clip = _instances[Random.Range(0, _instances.Length)];
+            source.clip = await LoadClip(Random.Range(0, clips.Length));
             source.Play();
+        }
+
+        private async UniTask<AudioClip> LoadClip(int index)
+        {
+            _instances ??= new AudioClip[clips.Length];
+            if (_instances[index] == null)
+                _instances[index] = await Addressables.LoadAssetAsync<AudioClip>(clips[index]);
+            return _instances[index];
         }
 
         public string Label => label;

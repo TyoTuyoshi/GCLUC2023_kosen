@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -44,14 +45,36 @@ namespace Scene
         public async void TransitionScene(string sceneName)
         {
             fadePanel.enabled = true;
-            await DOTween.ToAlpha(() => fadePanel.color, value => fadePanel.color = value, 1, 0.5f).ToUniTask();
+            await DOTween.ToAlpha(() => fadePanel.color, value => fadePanel.color = value, 1, 0.5f)
+                .SetLink(gameObject)
+                .ToUniTask();
             await UniTask.WhenAll(
                 SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene()).ToUniTask(),
                 SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).ToUniTask()
             );
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
             await DOTween.ToAlpha(() => fadePanel.color, value => fadePanel.color = value, 0, 0.5f)
                 .OnComplete(() => fadePanel.enabled = false)
+                .SetLink(gameObject)
                 .ToUniTask();
         }
     }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(SceneLoader))]
+    public class SceneLoaderEditor : Editor
+    {
+        private string _selectedScene;
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            if (!Application.isPlaying) return;
+
+            _selectedScene = EditorGUILayout.TextField("Scene", _selectedScene);
+            if (GUILayout.Button("Transition")) SceneLoader.Instance.TransitionScene(_selectedScene);
+        }
+    }
+#endif
 }

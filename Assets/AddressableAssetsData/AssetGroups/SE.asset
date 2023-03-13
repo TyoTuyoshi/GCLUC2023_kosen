@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SE
+  m_EditorClassIdentifier: 
+  m_GroupName: SE
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 84337f6b9073ad34d9fed1697298c6f4
+  m_SerializeEntries:
+  - m_GUID: 31ef9ef30a82cea428361f9c63bd5f6a
+    m_Address: Click_UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bf351041d3702904dbd031a36c4368ad
+    m_Address: Foot_Step1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2582b5039ff69704988d28fa214c7120
+    m_Address: Foot_Step2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e0616a97108c9fd4d939485e2e4bfe90
+    m_Address: Foot_Step3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d8259f1a28a380d41b0a4d931d71ab77
+    m_Address: Foot_Step4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 481bb6530a10c1a4593d1d84045f74b0
+    m_Address: Foot_Step5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 529ab8b6dc59bcc45bb4534595d9a038
+    m_Address: Foot_Step6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 379313bb479bc8845bd6b564b40ab434
+    m_Address: Hevy_Attack1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: aaf521344797c8f438542ae16890054f
+    m_Address: Jump
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1643a3636425c804fa24763623993160
+    m_Address: Light_Attack1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1947d190e5c225e4b990cce9888e70eb
+    m_Address: Light_Attack2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 78d23d0c856b15f429f705ef6df3bc19
+    m_Address: Pick_Item
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b46f434c273cc334bacfb5b53e556edf
+    m_Address: Shot_Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6f8c4cfeb7952d54092e821e68fc4f63
+    m_Address: Zombie1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fe192b9fa776fb34ea2b50038d7bf49e
+    m_Address: Zombie2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9518feb2b9c4b1c4090c8698d420bf05
+    m_Address: Zombie3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3e9793b534074894997ff8e099ab2fc0
+    m_Address: Explosion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 68e0ca2958c51404bb2d9be0b755479d, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d9a2a76a95a1b7e4b8bb940e1b52f9d8, type: 2}
+    - {fileID: 11400000, guid: 939fcb4225d817848be68b6a02a81b77, type: 2}

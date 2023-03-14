@@ -8,7 +8,7 @@ namespace Actor
     {
         private readonly Subject<string> _onAnimEvent = new();
         public abstract int Level { get; }
-        protected IObservable<string> OnAnimEvent => _onAnimEvent;
+        public IObservable<string> OnAnimEvent => _onAnimEvent;
 
         private void AnimEvent(string eventName)
         {

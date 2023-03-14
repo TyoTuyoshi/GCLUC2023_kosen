@@ -306,6 +306,22 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 5.92}
   m_Size: {x: 5, y: 11.72}
   m_Direction: 0
+--- !u!114 &1429585732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429585722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff309779e5dc41a78139cffa5963a97c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSeList:
+  - first: FootStep
+    second: 6
+  volume: 0.8
 --- !u!1001 &1671659740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -460,3 +476,19 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 5.9424353}
   m_Size: {x: 5.7100005, y: 11.650076}
   m_Direction: 0
+--- !u!114 &2091163497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091163485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff309779e5dc41a78139cffa5963a97c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSeList:
+  - first: FootStep
+    second: 6
+  volume: 0.8

@@ -1,9 +1,11 @@
+using System;
 using AutoGenerate;
 using Event;
 using IceMilkTea.Core;
 using Particle;
 using UniRx;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Actor.Enemy
 {
@@ -17,27 +19,41 @@ namespace Actor.Enemy
         [Space] [Header("Attack")] [SerializeField]
         private GrowValue attackPower;
 
-        [SerializeField] private Transform attackVfxPos;
+        [SerializeField] private Transform attackVfxPos, attackOrigin;
 
         [SerializeField] private float attackIntervalBase;
 
+#if UNITY_EDITOR
+        private void AttackStateGizmos()
+        {
+            if (!Application.isPlaying) return;
+
+            Gizmos.color = Color.red;
+
+            var range = _animator.GetFloat(AnimIdAttackRange);
+            var trans = transform;
+            Gizmos.DrawWireSphere(attackOrigin.position, range);
+        }
+#endif
+
         private class AttackState : ImtStateMachine<Enemy, EnemyState>.State
         {
-            private readonly CompositeDisposable _disposable = new();
+            private IDisposable _disposable;
 
             private float _lastAttackTime;
             private float AttackRange => Context._animator.GetFloat(AnimIdAttackRange);
 
             protected override void Enter()
             {
-                Context.OnAnimEvent
+                _disposable = Context.OnAnimEvent
                     .Where(e => e == "HitAttack")
-                    .Subscribe(HitAttack)
-                    .AddTo(_disposable);
+                    .Subscribe(HitAttack);
             }
 
             private async void HitAttack(string _)
             {
+                Debug.Log("Enemy Hit Attack");
+
                 var transform = Context.transform;
                 var dis =
                     (Context._playerActor.transform.position - transform.position).sqrMagnitude;
@@ -49,7 +65,7 @@ namespace Actor.Enemy
                     Amount = Context.attackPower.GetValue(Context.Level),
                     AttackRange = AttackRange,
                     KnockBackPower = 0.5f,
-                    SourcePos = transform.position + forward.normalized * (AttackRange / 2),
+                    SourcePos = Context.attackOrigin.position,
                     Source = transform
                 });
                 await ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.attackVfxPos.position,
@@ -59,6 +75,7 @@ namespace Actor.Enemy
             protected override void Exit()
             {
                 _disposable.Dispose();
+                _disposable = null;
             }
 
             private void LookAtPlayer()

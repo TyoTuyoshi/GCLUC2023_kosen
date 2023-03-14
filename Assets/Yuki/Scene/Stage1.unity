@@ -10740,10 +10740,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6112146909973017139, guid: 77e651adebca5ca4f9fb950e8d96d906, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 9849fc3eac1a216488dda531246f9489, type: 2}
+    - target: {fileID: 6112146909973017150, guid: 77e651adebca5ca4f9fb950e8d96d906, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 6700686723643186130, guid: 77e651adebca5ca4f9fb950e8d96d906, type: 3}
       propertyPath: m_Name
       value: ZombiePrefab

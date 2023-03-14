@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using IceMilkTea.Core;
 using UnityEditor;
@@ -55,6 +56,13 @@ namespace Actor.Enemy
 
             _stateMachine.Update();
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            AttackStateGizmos();
+        }
+#endif
     }
 
     internal enum EnemyState

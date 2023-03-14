@@ -5,7 +5,6 @@ using IceMilkTea.Core;
 using Particle;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Actor.Player
 {
@@ -18,7 +17,7 @@ namespace Actor.Player
         private float physicalBasePower = 2f;
 
         [SerializeField] private float physicalKnockBack = 0.2f;
-        [FormerlySerializedAs("physicalAttackOffset")] [SerializeField] private Vector3 physicalAttackVfxOffset;
+        [SerializeField] private Transform physicalAttackVfxPos, physicalAttackOrigin;
 
         /// <summary>
         ///     物理攻撃を行うステート、パンチ等
@@ -37,24 +36,21 @@ namespace Actor.Player
 
             private async void OnHit(string _)
             {
-                var range = Context._animator.GetFloat(AnimIdAttackRange);
                 var transform = Context.transform;
 
-                var pos = transform.position;
-                var forward = transform.forward;
                 EventPublisher.Instance.PublishEvent(new AttackEvent
                 {
                     Amount = Context.physicalBasePower,
-                    AttackRange = range,
+                    AttackRange = Context._animator.GetFloat(AnimIdAttackRange),
                     KnockBackPower = Context.physicalKnockBack,
-                    SourcePos = pos + forward.normalized * (range / 2),
+                    SourcePos = Context.physicalAttackOrigin.position,
                     Source = transform
                 });
                 StateMachine.SendEvent(PlayerState.Idle);
 
-                var offset = Context.physicalAttackVfxOffset;
-                var vfxPos = pos + new Vector3(offset.x * (forward.x < 0 ? -1 : 1), offset.y);
-                await ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, vfxPos, Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
+                var forward = transform.forward;
+                await ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.physicalAttackVfxPos.position,
+                    Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
             }
 
             protected override void Exit()

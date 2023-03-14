@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1497947458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1497947459}
+  m_Layer: 0
+  m_Name: AttackOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1497947459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497947458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.58, y: 4.22, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5491443506103108529}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &27449297437965061
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +400,7 @@ MonoBehaviour:
   - {fileID: 6922003642989730938}
   - {fileID: 6865918161499643901}
   m_Bounds:
-    m_Center: {x: 0.0015095472, y: 0.0001502037, z: 0}
+    m_Center: {x: 0.0015100241, y: 0.0001502037, z: 0}
     m_Extent: {x: 1.15849, y: 2.0391, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -475,7 +506,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6865918161499643901}
   m_Bounds:
-    m_Center: {x: -0.00000047683716, y: -0.000000834465, z: 0}
+    m_Center: {x: 0, y: -0.000000834465, z: 0}
     m_Extent: {x: 1.4549999, y: 1.315, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -614,7 +645,7 @@ MonoBehaviour:
   - {fileID: 6922003642989730938}
   - {fileID: 6865918161499643901}
   m_Bounds:
-    m_Center: {x: 0.0013692379, y: 0.002469778, z: 0}
+    m_Center: {x: 0.0013697147, y: 0.002469778, z: 0}
     m_Extent: {x: 3.0886297, y: 2.9875298, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -722,8 +753,8 @@ MonoBehaviour:
   - {fileID: 6922003642989730938}
   - {fileID: 4678656990109256748}
   m_Bounds:
-    m_Center: {x: 0.0013107657, y: 0.00046491623, z: 0}
-    m_Extent: {x: 0.5436901, y: 1.6655555, z: 0}
+    m_Center: {x: 0.0013079047, y: 0.00046491623, z: 0}
+    m_Extent: {x: 0.5436882, y: 1.6655555, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -832,6 +863,7 @@ Transform:
   - {fileID: 904307703680574738}
   - {fileID: 6922003642989730938}
   - {fileID: 6112146911205161453}
+  - {fileID: 1497947459}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -882,7 +914,7 @@ Animator:
   m_GameObject: {fileID: 6700686723643186130}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 759306d0485ebc541a0ebba96593b8b7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9849fc3eac1a216488dda531246f9489, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 1
@@ -923,6 +955,7 @@ MonoBehaviour:
     baseValue: 1
     growRate: 0.2
   attackVfxPos: {fileID: 6112146911205161453}
+  attackOrigin: {fileID: 1497947459}
   attackIntervalBase: 0.2
   maxHp:
     baseValue: 10
@@ -1295,8 +1328,8 @@ MonoBehaviour:
   - {fileID: 7611723640820654556}
   - {fileID: 4671245382576642567}
   m_Bounds:
-    m_Center: {x: -0.0000008940697, y: -0.00000023841858, z: 0}
-    m_Extent: {x: 0.5949999, y: 1.8699996, z: 0}
+    m_Center: {x: -0.0000023841858, y: -0.00000023841858, z: 0}
+    m_Extent: {x: 0.59499854, y: 1.8699996, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0

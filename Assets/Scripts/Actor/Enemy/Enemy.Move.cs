@@ -32,6 +32,8 @@ namespace Actor.Enemy
 
             protected override void Update()
             {
+                TransitionAttack();
+
                 var pos = Context._rigid.position;
                 // 到着したならアイドルに移行
                 if ((_destination - pos).sqrMagnitude < Mathf.Pow(Context.reachedRange, 2))
@@ -47,8 +49,6 @@ namespace Actor.Enemy
                 else
                     euler.y = 0;
                 Context.transform.rotation = Quaternion.Euler(euler);
-
-                TransitionAttack();
             }
 
             /// <summary>
@@ -60,7 +60,7 @@ namespace Actor.Enemy
                 if (dis < Mathf.Pow(Context.playerSearchRange, 2)) StateMachine.SendEvent(EnemyState.Attack);
             }
 
-            private bool IsReach(in Vector2 target)
+            private bool CanReach(in Vector2 target)
             {
                 var pos = Context.transform.position;
                 return Physics2D.LinecastNonAlloc(pos, target, new RaycastHit2D[1], Context.obstacleLayer) == 0;
@@ -70,7 +70,7 @@ namespace Actor.Enemy
             {
                 var range = Context.moveRange;
                 var randomPos = Vector2.zero;
-                while (randomPos.sqrMagnitude == 0 || !IsReach(randomPos))
+                while (randomPos.sqrMagnitude == 0 || !CanReach(randomPos))
                     randomPos = Context._initPos +
                                 new Vector2(Random.Range(-range, range), Random.Range(-range, range));
 

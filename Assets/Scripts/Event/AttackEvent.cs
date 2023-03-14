@@ -29,12 +29,14 @@ namespace Event
         ///     ノックバックの方向
         /// </summary>
         public float KnockBackPower { get; init; }
+        
+        public Transform Source { get; init; }
 
         public static IObservable<AttackEvent> RegisterListenerInRange(Transform self)
         {
             return EventPublisher.Instance
                 .RegisterListener<AttackEvent>()
-                .Where(e => e.SourcePos != self.position)
+                .Where(e => e.Source != null && e.Source.GetInstanceID() != self.GetInstanceID())
                 .Where(e => (self.position - e.SourcePos).sqrMagnitude < Mathf.Pow(e.AttackRange, 2));
         }
     }

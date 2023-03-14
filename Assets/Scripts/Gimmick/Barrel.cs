@@ -32,12 +32,14 @@ namespace Gimmick
         private void Explosion(IEvent _)
         {
             Debug.Log("Explosion");
+            var trans = transform;
             EventPublisher.Instance.PublishEvent(new AttackEvent
             {
-                SourcePos = transform.position,
+                SourcePos = trans.position,
                 Amount = damage,
                 AttackRange = explosionRange,
-                KnockBackPower = explosionPower
+                KnockBackPower = explosionPower,
+                Source = trans
             });
             Destroy(gameObject);
         }

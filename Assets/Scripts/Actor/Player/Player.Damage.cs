@@ -1,10 +1,13 @@
 using IceMilkTea.Core;
+using UnityEngine;
 
-namespace Actor.Enemy
+namespace Actor.Player
 {
-    public partial class Enemy
+    public partial class Player
     {
-        private class DamageState : ImtStateMachine<Enemy, EnemyState>.State
+        private static readonly int AnimIdDamageTrigger = Animator.StringToHash("DamageTrigger");
+
+        private class DamageState : ImtStateMachine<Player, PlayerState>.State
         {
             protected override void Enter()
             {
@@ -14,7 +17,7 @@ namespace Actor.Enemy
             protected override void Update()
             {
                 if (Context._animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-                    StateMachine.SendEvent(EnemyState.Idle);
+                    StateMachine.SendEvent(PlayerState.Idle);
             }
 
             protected override void Exit()

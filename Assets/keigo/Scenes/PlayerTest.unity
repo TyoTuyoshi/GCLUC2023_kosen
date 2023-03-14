@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
       propertyPath: m_LinearDrag
       value: 10
@@ -370,6 +374,14 @@ PrefabInstance:
       value: 1.16
       objectReference: {fileID: 0}
     - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: maxHp.growRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: maxHp.baseValue
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
       propertyPath: physicalBaseSpan
       value: 0.1
       objectReference: {fileID: 0}
@@ -411,6 +423,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8025844268999287162, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
       propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025844268999287162, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8025844268999287165, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}

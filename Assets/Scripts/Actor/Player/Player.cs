@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Actor.Player
 {
-    public partial class Player : ActorBase
+    public partial class Player : ActorBase, IDamageableActor
     {
         private Animator _animator;
         private GameInput.PlayerActions _input;
@@ -24,6 +24,7 @@ namespace Actor.Player
             TryGetComponent(out _animator);
 
             InitStateMachine();
+            InitDamageable();
         }
 
         private void FixedUpdate()
@@ -42,6 +43,8 @@ namespace Actor.Player
             _stateMachine.AddTransition<IdleState, PhysicalAttackState>(PlayerState.Attack);
             _stateMachine.AddTransition<PhysicalAttackState, IdleState>(PlayerState.Idle);
             _stateMachine.AddTransition<MoveState, PhysicalAttackState>(PlayerState.Attack);
+            _stateMachine.AddTransition<DamageState, IdleState>(PlayerState.Idle);
+            _stateMachine.AddAnyTransition<DamageState>(PlayerState.Damage);
 
             _stateMachine.SetStartState<MoveState>();
         }
@@ -55,8 +58,10 @@ namespace Actor.Player
             base.OnInspectorGUI();
 
             if (!Application.isPlaying) return;
-            var manager = target as Player;
+
+            var manager = (Player)target;
             EditorGUILayout.LabelField($"State: {manager.CurrentState}");
+            EditorGUILayout.LabelField($"HP: {manager.CurrentHp}");
         }
     }
 #endif

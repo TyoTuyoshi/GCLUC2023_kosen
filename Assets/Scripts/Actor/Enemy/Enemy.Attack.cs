@@ -7,16 +7,18 @@ namespace Actor.Enemy
 {
     public partial class Enemy
     {
+        private static readonly int AnimIdSpeed = Animator.StringToHash("Speed");
+
+        private static readonly int AnimIdAttackRange = Animator.StringToHash("AttackRange");
+        private static readonly int AnimIdAttackTrigger = Animator.StringToHash("AttackTrigger");
+
         [Space] [Header("Attack")] [SerializeField]
         private GrowValue attackPower;
 
         [SerializeField] private float attackIntervalBase;
-        private static readonly int AnimIdSpeed = Animator.StringToHash("Speed");
 
         private class AttackState : ImtStateMachine<Enemy, EnemyState>.State
         {
-            private static readonly int AnimIdAttackRange = Animator.StringToHash("AttackRange");
-            private static readonly int AnimIdAttackTrigger = Animator.StringToHash("AttackTrigger");
             private readonly CompositeDisposable _disposable = new();
 
             private float _lastAttackTime;
@@ -32,8 +34,9 @@ namespace Actor.Enemy
 
             private void HitAttack(string _)
             {
+                var transform = Context.transform;
                 var dis =
-                    (Context._playerActor.transform.position - Context.transform.position).sqrMagnitude;
+                    (Context._playerActor.transform.position - transform.position).sqrMagnitude;
                 if (!IsInRangePlayer(dis)) return;
 
                 EventPublisher.Instance.PublishEvent(new AttackEvent
@@ -41,7 +44,8 @@ namespace Actor.Enemy
                     Amount = Context.attackPower.GetValue(Context.Level),
                     AttackRange = AttackRange,
                     KnockBackPower = 0.5f,
-                    SourcePos = Context.transform.position
+                    SourcePos = transform.position + transform.forward.normalized * (AttackRange / 2),
+                    Source = transform
                 });
             }
 

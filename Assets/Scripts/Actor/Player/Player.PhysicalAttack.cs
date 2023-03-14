@@ -42,7 +42,8 @@ namespace Actor.Player
                     Amount = Context.physicalBasePower,
                     AttackRange = range,
                     KnockBackPower = Context.physicalKnockBack,
-                    SourcePos = transform.position + Context.physicalAttackOffset + transform.forward.normalized * (range / 2)
+                    SourcePos = transform.position + Context.physicalAttackOffset + transform.forward.normalized * (range / 2),
+                    Source = transform
                 });
                 StateMachine.SendEvent(PlayerState.Idle);
             }

@@ -30,10 +30,10 @@ namespace Particle
             _instance = null;
         }
 
-        public async UniTask PlayVfx(VfxEnum vfxType, float durationSec)
+        public async UniTask PlayVfx(VfxEnum vfxType, float durationSec, Vector3 pos = default, Quaternion rot = default)
         {
             var assetRef = _vfxRefs[(int)vfxType];
-            var vfx = await Addressables.InstantiateAsync(assetRef);
+            var vfx = await Addressables.InstantiateAsync(assetRef, pos, rot);
             await UniTask.Delay(TimeSpan.FromSeconds(durationSec));
             assetRef.ReleaseInstance(vfx);
         }

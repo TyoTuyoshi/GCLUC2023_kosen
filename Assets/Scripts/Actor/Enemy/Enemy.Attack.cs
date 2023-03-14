@@ -1,5 +1,7 @@
+using AutoGenerate;
 using Event;
 using IceMilkTea.Core;
+using Particle;
 using UniRx;
 using UnityEngine;
 
@@ -14,6 +16,8 @@ namespace Actor.Enemy
 
         [Space] [Header("Attack")] [SerializeField]
         private GrowValue attackPower;
+
+        [SerializeField] private Transform attackVfxPos;
 
         [SerializeField] private float attackIntervalBase;
 
@@ -32,21 +36,24 @@ namespace Actor.Enemy
                     .AddTo(_disposable);
             }
 
-            private void HitAttack(string _)
+            private async void HitAttack(string _)
             {
                 var transform = Context.transform;
                 var dis =
                     (Context._playerActor.transform.position - transform.position).sqrMagnitude;
                 if (!IsInRangePlayer(dis)) return;
 
+                var forward = transform.forward;
                 EventPublisher.Instance.PublishEvent(new AttackEvent
                 {
                     Amount = Context.attackPower.GetValue(Context.Level),
                     AttackRange = AttackRange,
                     KnockBackPower = 0.5f,
-                    SourcePos = transform.position + transform.forward.normalized * (AttackRange / 2),
+                    SourcePos = transform.position + forward.normalized * (AttackRange / 2),
                     Source = transform
                 });
+                await ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.attackVfxPos.position,
+                    Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
             }
 
             protected override void Exit()

@@ -1,6 +1,8 @@
 using System;
+using AutoGenerate;
 using Event;
 using IceMilkTea.Core;
+using Particle;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,7 +18,7 @@ namespace Actor.Player
         private float physicalBasePower = 2f;
 
         [SerializeField] private float physicalKnockBack = 0.2f;
-        [SerializeField] private Vector3 physicalAttackOffset;
+        [FormerlySerializedAs("physicalAttackOffset")] [SerializeField] private Vector3 physicalAttackVfxOffset;
 
         /// <summary>
         ///     物理攻撃を行うステート、パンチ等
@@ -33,19 +35,26 @@ namespace Actor.Player
                 Context._animator.SetTrigger(AnimIdAttackTrigger);
             }
 
-            private void OnHit(string _)
+            private async void OnHit(string _)
             {
                 var range = Context._animator.GetFloat(AnimIdAttackRange);
                 var transform = Context.transform;
+
+                var pos = transform.position;
+                var forward = transform.forward;
                 EventPublisher.Instance.PublishEvent(new AttackEvent
                 {
                     Amount = Context.physicalBasePower,
                     AttackRange = range,
                     KnockBackPower = Context.physicalKnockBack,
-                    SourcePos = transform.position + Context.physicalAttackOffset + transform.forward.normalized * (range / 2),
+                    SourcePos = pos + forward.normalized * (range / 2),
                     Source = transform
                 });
                 StateMachine.SendEvent(PlayerState.Idle);
+
+                var offset = Context.physicalAttackVfxOffset;
+                var vfxPos = pos + new Vector3(offset.x * (forward.x < 0 ? -1 : 1), offset.y);
+                await ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, vfxPos, Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
             }
 
             protected override void Exit()

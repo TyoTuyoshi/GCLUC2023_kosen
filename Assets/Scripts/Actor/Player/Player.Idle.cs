@@ -9,9 +9,7 @@ namespace Actor.Player
             protected override void Update()
             {
                 if (Context._input.Move.IsPressed() || Context._input.Jump.IsPressed())
-                {
-                    Context.ChangeState(PlayerState.Move);
-                }
+                    StateMachine.SendEvent(PlayerState.Move);
             }
         }
     }

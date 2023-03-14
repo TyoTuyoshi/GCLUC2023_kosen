@@ -1,18 +1,19 @@
-using System.Linq;
 using IceMilkTea.Core;
+using UnityEditor;
 using UnityEngine;
-using Utils;
 
 namespace Actor.Player
 {
     public partial class Player : ActorBase
     {
-        [SerializeField] private Pair<PlayerState, string>[] animStates;
         private Animator _animator;
         private GameInput.PlayerActions _input;
         private Rigidbody2D _rigid;
         private ImtStateMachine<Player, PlayerState> _stateMachine;
         public override int Level => 1;
+#if UNITY_EDITOR
+        public string CurrentState => _stateMachine.CurrentStateName;
+#endif
 
         private void Start()
         {
@@ -28,6 +29,8 @@ namespace Actor.Player
         private void FixedUpdate()
         {
             _stateMachine.Update();
+
+            if (_input.Attack.IsPressed()) _stateMachine.SendEvent(PlayerState.Attack);
         }
 
         private void InitStateMachine()
@@ -36,23 +39,25 @@ namespace Actor.Player
 
             _stateMachine.AddTransition<IdleState, MoveState>(PlayerState.Move);
             _stateMachine.AddTransition<MoveState, IdleState>(PlayerState.Idle);
+            _stateMachine.AddTransition<IdleState, PhysicalAttackState>(PlayerState.Attack);
+            _stateMachine.AddTransition<PhysicalAttackState, IdleState>(PlayerState.Idle);
+            _stateMachine.AddTransition<MoveState, PhysicalAttackState>(PlayerState.Attack);
 
             _stateMachine.SetStartState<MoveState>();
         }
-
-        private void ChangeState(PlayerState state)
-        {
-            _stateMachine.SendEvent(state);
-
-            if (animStates.FirstOrDefault(v => v.First == state) is not { } animState)
-            {
+    }
 #if UNITY_EDITOR
-                Debug.LogWarning($"`{state}` に対応するアニメーションステートが登録されていません。", gameObject);
-#endif
-                return;
-            }
+    [CustomEditor(typeof(Player))]
+    public class PlayerEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
 
-            _animator.CrossFade(animState.Second, 0.2f);
+            if (!Application.isPlaying) return;
+            var manager = target as Player;
+            EditorGUILayout.LabelField($"State: {manager.CurrentState}");
         }
     }
+#endif
 }

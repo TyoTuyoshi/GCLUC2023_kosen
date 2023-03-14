@@ -1,10 +1,13 @@
 using IceMilkTea.Core;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Actor.Player
 {
     public partial class Player
     {
+        private static readonly int AnimIdSpeed = Animator.StringToHash("Speed");
+
         [SerializeField] [Header("Move")] [Space]
         private float moveSpeed = 4f;
 
@@ -26,19 +29,31 @@ namespace Actor.Player
 
                 // 動きがないならIdleに遷移
                 if (pos == Context._rigid.position)
-                    Context.ChangeState(PlayerState.Idle);
+                    StateMachine.SendEvent(PlayerState.Idle);
                 else
                     Context._rigid.MovePosition(pos);
+            }
+
+            protected override void Exit()
+            {
+                Context._animator.SetFloat(AnimIdSpeed, 0);
             }
 
             private Vector2 Move(Vector2 current)
             {
                 var value = Context._input.Move.ReadValue<Vector2>();
+                Context._animator.SetFloat(AnimIdSpeed, value.sqrMagnitude > 0.1f ? 1 : 0);
                 if (value.sqrMagnitude < 0.1f) return current;
 
                 // ジャンプしているなら横移動のみに制限
                 if (_isJumping) value.y = 0;
                 var speed = _isJumping ? Context.airMoveSpeed : Context.moveSpeed;
+
+                // 動いた方向に回転
+                var euler = Context.transform.rotation.eulerAngles;
+                euler.y = value.x > 0.1f ? 180 : value.x < -0.1f ? 0 : euler.y;
+                Context.transform.rotation = Quaternion.Euler(euler);
+
                 return current + value.normalized * (speed * Time.fixedDeltaTime);
             }
 

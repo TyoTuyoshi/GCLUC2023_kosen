@@ -123,6 +123,72 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &561405831
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 11, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: maxHp.growRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: maxHp.baseValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 589736435785722343, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_Name
+      value: EnemyTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
 --- !u!1 &1236001099
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +333,14 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: physicalBaseSpan
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
       propertyPath: animStates.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -284,7 +358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
       propertyPath: animStates.Array.data[1].second
-      value: Attack
+      value: Base Layer.Attack.Attack1
       objectReference: {fileID: 0}
     - target: {fileID: 1952915347162447408, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
       propertyPath: animStates.Array.data[2].second
@@ -293,6 +367,10 @@ PrefabInstance:
     - target: {fileID: 1952915347162447409, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
       propertyPath: m_Name
       value: PlayerTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025844268999287162, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}
+      propertyPath: m_UpdateMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef2e22e35cd267542be26f0a247a5f07, type: 3}

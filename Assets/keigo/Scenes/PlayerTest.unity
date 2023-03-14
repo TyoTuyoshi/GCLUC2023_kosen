@@ -321,6 +321,8 @@ MonoBehaviour:
   eventSeList:
   - first: FootStep
     second: 6
+  - first: BeginAttack
+    second: 8
   volume: 0.8
 --- !u!1001 &1671659740
 PrefabInstance:
@@ -491,4 +493,6 @@ MonoBehaviour:
   eventSeList:
   - first: FootStep
     second: 6
+  - first: BeginAttack
+    second: 8
   volume: 0.8

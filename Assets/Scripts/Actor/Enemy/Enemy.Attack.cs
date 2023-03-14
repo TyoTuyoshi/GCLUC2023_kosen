@@ -77,7 +77,7 @@ namespace Actor.Enemy
 
                     _lastAttackTime = Time.time - Random.Range(0.3f, 0f);
                     Attack();
-                    return;
+                    // return;
                 }
 
                 if (dis < Mathf.Pow(Context.playerSearchRange, 2)) // 索敵範囲内なら

@@ -3,6 +3,7 @@ using Event;
 using IceMilkTea.Core;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Actor.Player
 {
@@ -15,8 +16,7 @@ namespace Actor.Player
         private float physicalBasePower = 2f;
 
         [SerializeField] private float physicalKnockBack = 0.2f;
-
-        [SerializeField] private float physicalBaseSpan = 0.2f;
+        [SerializeField] private Vector3 physicalAttackOffset;
 
         /// <summary>
         ///     物理攻撃を行うステート、パンチ等
@@ -42,7 +42,7 @@ namespace Actor.Player
                     Amount = Context.physicalBasePower,
                     AttackRange = range,
                     KnockBackPower = Context.physicalKnockBack,
-                    SourcePos = transform.position + transform.forward.normalized * (range / 2)
+                    SourcePos = transform.position + Context.physicalAttackOffset + transform.forward.normalized * (range / 2)
                 });
                 StateMachine.SendEvent(PlayerState.Idle);
             }

@@ -8,8 +8,6 @@ namespace Actor.Enemy
 {
     public partial class Enemy : ActorBase, IDamageableActor
     {
-        [SerializeField] private Pair<EnemyState, string>[] animateStates;
-
         private Animator _animator;
         private Vector2 _initPos; // 初期状態の座標
         private float _lastPlayerSearched;
@@ -25,6 +23,7 @@ namespace Actor.Enemy
             TryGetComponent(out _animator);
             TryGetComponent(out _rigid);
             _initPos = _rigid.position;
+            GameObject.FindWithTag("Player")?.TryGetComponent(out _playerActor);
 
             _stateMachine = new ImtStateMachine<Enemy, EnemyState>(this);
             _stateMachine.AddTransition<IdleState, MoveState>(EnemyState.Move);
@@ -33,7 +32,9 @@ namespace Actor.Enemy
             _stateMachine.AddTransition<AttackState, IdleState>(EnemyState.Idle);
             _stateMachine.AddTransition<IdleState, AttackState>(EnemyState.Attack);
             _stateMachine.AddTransition<MoveState, AttackState>(EnemyState.Attack);
+            _stateMachine.AddTransition<DamageState, IdleState>(EnemyState.Idle);
             _stateMachine.AddAnyTransition<DeathState>(EnemyState.Death);
+            _stateMachine.AddAnyTransition<DamageState>(EnemyState.Damage);
 
             _stateMachine.SetStartState<IdleState>();
 
@@ -45,7 +46,7 @@ namespace Actor.Enemy
             // プレイヤーアクターが存在しないなら更新せずに2秒ごとに探す
             if (_playerActor == null || !_playerActor.isActiveAndEnabled)
             {
-                if (Time.time - _lastPlayerSearched < 2f) return;
+                if (Time.time - _lastPlayerSearched > 2f) return;
 
                 GameObject.FindWithTag("Player")?.TryGetComponent(out _playerActor);
                 _lastPlayerSearched = Time.time;
@@ -54,14 +55,6 @@ namespace Actor.Enemy
 
             _stateMachine.Update();
         }
-
-        private void ChangeState(EnemyState state)
-        {
-            _stateMachine.SendEvent(state);
-
-            if (animateStates.FirstOrDefault(v => v.First == state) is not { } animState) return;
-            _animator.CrossFade(animState.Second, 0.2f);
-        }
     }
 
     internal enum EnemyState
@@ -69,7 +62,8 @@ namespace Actor.Enemy
         Move,
         Attack,
         Idle,
-        Death
+        Death,
+        Damage
     }
 
 #if UNITY_EDITOR

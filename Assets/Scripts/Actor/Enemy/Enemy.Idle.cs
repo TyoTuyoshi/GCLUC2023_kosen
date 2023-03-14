@@ -8,10 +8,11 @@ namespace Actor.Enemy
         private class IdleState : ImtStateMachine<Enemy, EnemyState>.State
         {
             private Tween _tween;
-            
+
             protected override void Enter()
             {
-                _tween = DOVirtual.DelayedCall(1, () => Context.ChangeState(EnemyState.Move));
+                _tween = DOVirtual.DelayedCall(1, () => StateMachine.SendEvent(EnemyState.Move));
+                Context._animator.SetFloat(AnimIdSpeed, 0);
             }
 
             protected override void Exit()

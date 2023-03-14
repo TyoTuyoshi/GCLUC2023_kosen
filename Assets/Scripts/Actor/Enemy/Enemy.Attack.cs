@@ -11,6 +11,7 @@ namespace Actor.Enemy
         private GrowValue attackPower;
 
         [SerializeField] private float attackIntervalBase;
+        private static readonly int AnimIdSpeed = Animator.StringToHash("Speed");
 
         private class AttackState : ImtStateMachine<Enemy, EnemyState>.State
         {
@@ -19,7 +20,7 @@ namespace Actor.Enemy
             private readonly CompositeDisposable _disposable = new();
 
             private float _lastAttackTime;
-            private float _attackRange => Context._animator.GetFloat(AnimIdAttackRange);
+            private float AttackRange => Context._animator.GetFloat(AnimIdAttackRange);
 
             protected override void Enter()
             {
@@ -38,7 +39,7 @@ namespace Actor.Enemy
                 EventPublisher.Instance.PublishEvent(new AttackEvent
                 {
                     Amount = Context.attackPower.GetValue(Context.Level),
-                    AttackRange = _attackRange,
+                    AttackRange = AttackRange,
                     KnockBackPower = 0.5f,
                     SourcePos = Context.transform.position
                 });
@@ -84,11 +85,12 @@ namespace Actor.Enemy
                     if ((Context._initPos - pPos).sqrMagnitude < Mathf.Pow(Context.moveRange, 2))
                     {
                         Context._rigid.MovePosition(pos + (pPos - pos) * (Context.moveSpeed * Time.deltaTime));
+                        Context._animator.SetFloat(AnimIdSpeed, 1);
                         return;
                     }
                 }
 
-                Context.ChangeState(EnemyState.Idle);
+                StateMachine.SendEvent(EnemyState.Idle);
             }
 
             private void Attack()
@@ -102,7 +104,7 @@ namespace Actor.Enemy
             /// <returns></returns>
             private bool IsInRangePlayer(float distance)
             {
-                return Mathf.Pow(_attackRange, 2) >= distance;
+                return Mathf.Pow(AttackRange, 2) >= distance;
             }
         }
     }

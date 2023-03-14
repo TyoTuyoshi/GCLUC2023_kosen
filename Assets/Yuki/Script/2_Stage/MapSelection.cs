@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Scene;
 using System.IO;
 
 namespace MapSelection
@@ -26,13 +23,12 @@ namespace MapSelection
         {
             //json読み込み
             LoadStageStatus();
-            
             for (int i = 0; i < stageStatus.Count; i++)
             {
                 if (stageStatus[i])
-                { stageButton[i].SetActive(true); }
+                    stageButton[i].SetActive(true);
                 else
-                { stageButton[i].SetActive(false); }
+                    stageButton[i].SetActive(false);
             }
         }
 
@@ -48,6 +44,7 @@ namespace MapSelection
             }
         }
 
+        //ボタン用
         public void SceneChange(string sceneName)
         {
             try
@@ -61,5 +58,6 @@ namespace MapSelection
                 throw;
             }
         }
+
     }
 }

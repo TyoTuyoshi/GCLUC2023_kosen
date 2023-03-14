@@ -15,7 +15,7 @@ TagManager:
   - rock
   - player
   - enemy
-  - 
+  - background
   - 
   - 
   - 
@@ -47,6 +47,9 @@ TagManager:
   - name: obj_back
     uniqueID: 16573117
     locked: 0
+  - name: trap
+    uniqueID: 2686947931
+    locked: 0
   - name: Enemy
     uniqueID: 2082812281
     locked: 0
@@ -55,6 +58,9 @@ TagManager:
     locked: 0
   - name: Item
     uniqueID: 2993911929
+    locked: 0
+  - name: Effects
+    uniqueID: 576697889
     locked: 0
   - name: obj_front
     uniqueID: 409573825

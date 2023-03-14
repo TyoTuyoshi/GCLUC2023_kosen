@@ -74,7 +74,11 @@ namespace Actor.Enemy
         {
             base.OnInspectorGUI();
 
-            if (Application.isPlaying && target is Enemy enemy) GUILayout.Label($"State: {enemy.CurrentStateName}");
+            if (Application.isPlaying && target is Enemy enemy)
+            {
+                GUILayout.Label($"State: {enemy.CurrentStateName}");
+                GUILayout.Label($"HP: {enemy.CurrentHp}");
+            }
         }
     }
 #endif

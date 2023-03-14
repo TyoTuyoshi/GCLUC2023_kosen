@@ -7,8 +7,8 @@ namespace Actor.Enemy
 {
     public partial class Enemy
     {
-        [SerializeField] private GrowValue maxHp;
         private static readonly int AnimIdDamageTrigger = Animator.StringToHash("DamageTrigger");
+        [SerializeField] private GrowValue maxHp;
 
         public float MaxHp { get; private set; }
         public float CurrentHp { get; private set; }
@@ -18,7 +18,10 @@ namespace Actor.Enemy
             MaxHp = maxHp.GetValue(Level);
             CurrentHp = MaxHp;
 
-            AttackEvent.RegisterListenerInRange(transform).Subscribe(OnDamage);
+            AttackEvent
+                .RegisterListenerInRange(transform)
+                .Subscribe(OnDamage)
+                .AddTo(this);
         }
 
         private void OnHeal(HealEvent e)
@@ -35,9 +38,8 @@ namespace Actor.Enemy
             _rigid.AddForce(dir, ForceMode2D.Impulse);
             // 一定時間後にリセット
             DOVirtual.DelayedCall(1f, () => _rigid.velocity = Vector2.zero).SetLink(gameObject);
-            _stateMachine.SendEvent(EnemyState.Damage);
-
-            if (CurrentHp <= 0) _stateMachine.SendEvent(EnemyState.Death);
+            
+            _stateMachine.SendEvent(CurrentHp <= 0 ? EnemyState.Death : EnemyState.Damage);
         }
     }
 }

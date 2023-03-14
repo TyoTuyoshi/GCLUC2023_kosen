@@ -437,6 +437,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8717467248400428793, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717467248400428793, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc2c7923977959e45a1b996d1fa937fa, type: 3}
 --- !u!1 &1474060631

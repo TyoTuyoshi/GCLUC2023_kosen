@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/keigo/Scenes/UITest.unity
     guid: dc47577b01d731e4885cf9415767a8f8
   - enabled: 1
-    path: Assets/Scenes/BaseScene.unity
+    path: Assets/Yuki/Scene/BaseScene.unity
     guid: 2d00f47b2b297c0438ae7a4f26b99f79
   - enabled: 1
     path: Assets/keigo/Scenes/TestScene2.unity

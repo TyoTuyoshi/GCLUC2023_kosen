@@ -10,6 +10,7 @@ namespace Actor.Player
         Move,
         Death,
         Stan,
-        Damage
+        Damage,
+        GunAttack
     }
 }

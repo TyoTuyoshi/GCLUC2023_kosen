@@ -31,7 +31,7 @@ namespace Actor.Player
         {
             _stateMachine.Update();
 
-            if (_input.Attack.IsPressed()) _stateMachine.SendEvent(PlayerState.Attack);
+            if (_input.Attack.IsPressed()) _stateMachine.SendEvent(PlayerState.GunAttack);
         }
 
         private void InitStateMachine()
@@ -44,6 +44,9 @@ namespace Actor.Player
             _stateMachine.AddTransition<PhysicalAttackState, IdleState>(PlayerState.Idle);
             _stateMachine.AddTransition<MoveState, PhysicalAttackState>(PlayerState.Attack);
             _stateMachine.AddTransition<DamageState, IdleState>(PlayerState.Idle);
+            _stateMachine.AddTransition<IdleState, GunAttackState>(PlayerState.GunAttack);
+            _stateMachine.AddTransition<MoveState, GunAttackState>(PlayerState.GunAttack);
+            _stateMachine.AddTransition<GunAttackState, IdleState>(PlayerState.Idle);
             _stateMachine.AddAnyTransition<DamageState>(PlayerState.Damage);
 
             _stateMachine.SetStartState<MoveState>();

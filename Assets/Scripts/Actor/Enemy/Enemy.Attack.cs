@@ -50,7 +50,7 @@ namespace Actor.Enemy
                     .Subscribe(HitAttack);
             }
 
-            private async void HitAttack(string _)
+            private void HitAttack(string _)
             {
                 Debug.Log("Enemy Hit Attack");
 
@@ -68,7 +68,7 @@ namespace Actor.Enemy
                     SourcePos = Context.attackOrigin.position,
                     Source = transform
                 });
-                await ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.attackVfxPos.position,
+                ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.attackVfxPos.position,
                     Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
             }
 

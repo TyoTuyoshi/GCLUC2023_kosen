@@ -36,7 +36,7 @@ namespace Actor.Player
                     .Subscribe(OnShot);
             }
 
-            private async void OnShot(string _)
+            private void OnShot(string _)
             {
                 var rot = Context.transform.rotation.eulerAngles;
                 var pos = Context.gunShotOrigin.position;
@@ -48,7 +48,7 @@ namespace Actor.Player
                     Prefab = Context.bulletPrefab,
                     Source = Context
                 });
-                await ParticleManager.Instance.PlayVfx(VfxEnum.MuzzleFlash, 1, Context.gunShotOrigin.position);
+                ParticleManager.Instance.PlayVfx(VfxEnum.MuzzleFlash, 1, Context.gunShotOrigin.position);
             }
 
             protected override void Update()

@@ -1,5 +1,6 @@
 using System;
 using AutoGenerate;
+using Cysharp.Threading.Tasks;
 using Event;
 using IceMilkTea.Core;
 using Particle;
@@ -34,7 +35,7 @@ namespace Actor.Player
                 Context._animator.SetTrigger(AnimIdAttackTrigger);
             }
 
-            private async void OnHit(string _)
+            private void OnHit(string _)
             {
                 var transform = Context.transform;
 
@@ -49,7 +50,7 @@ namespace Actor.Player
                 StateMachine.SendEvent(PlayerState.Idle);
 
                 var forward = transform.forward;
-                await ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.physicalAttackVfxPos.position,
+                ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.physicalAttackVfxPos.position,
                     Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
             }
 

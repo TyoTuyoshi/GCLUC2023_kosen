@@ -40,14 +40,17 @@ namespace Actor.Player
 
             _stateMachine.AddTransition<IdleState, MoveState>(PlayerState.Move);
             _stateMachine.AddTransition<MoveState, IdleState>(PlayerState.Idle);
-            _stateMachine.AddTransition<IdleState, PhysicalAttackState>(PlayerState.Attack);
-            _stateMachine.AddTransition<PhysicalAttackState, IdleState>(PlayerState.Idle);
-            _stateMachine.AddTransition<MoveState, PhysicalAttackState>(PlayerState.Attack);
+
+            _stateMachine.AddAnyTransition<DamageState>(PlayerState.Damage);
             _stateMachine.AddTransition<DamageState, IdleState>(PlayerState.Idle);
+
             _stateMachine.AddTransition<IdleState, GunAttackState>(PlayerState.GunAttack);
             _stateMachine.AddTransition<MoveState, GunAttackState>(PlayerState.GunAttack);
             _stateMachine.AddTransition<GunAttackState, IdleState>(PlayerState.Idle);
-            _stateMachine.AddAnyTransition<DamageState>(PlayerState.Damage);
+
+            _stateMachine.AddTransition<IdleState, PhysicalAttackState>(PlayerState.Attack);
+            _stateMachine.AddTransition<MoveState, PhysicalAttackState>(PlayerState.Attack);
+            _stateMachine.AddTransition<PhysicalAttackState, IdleState>(PlayerState.Idle);
 
             _stateMachine.SetStartState<MoveState>();
         }

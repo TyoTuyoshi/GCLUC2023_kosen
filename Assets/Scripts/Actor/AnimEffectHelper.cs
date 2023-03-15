@@ -22,12 +22,12 @@ namespace Actor
             _actor.OnAnimEvent.Subscribe(OnVfx).AddTo(this);
         }
 
-        private async void OnVfx(string animEvent)
+        private void OnVfx(string animEvent)
         {
             if (!_dict.ContainsKey(animEvent)) return;
 
             var trans = transform;
-            await ParticleManager.Instance.PlayVfx(_dict[animEvent], 1, trans.position, trans.rotation);
+            ParticleManager.Instance.PlayVfx(_dict[animEvent], 1, trans.position, trans.rotation);
         }
     }
 }

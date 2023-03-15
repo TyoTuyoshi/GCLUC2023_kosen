@@ -1,7 +1,7 @@
-using System;
 using System.Linq;
 using AutoGenerate;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
@@ -30,12 +30,14 @@ namespace Particle
             _instance = null;
         }
 
-        public async UniTask PlayVfx(VfxEnum vfxType, float durationSec, Vector3 pos = default, Quaternion rot = default)
+        public void PlayVfx(VfxEnum vfxType, float durationSec, Vector3 pos = default, Quaternion rot = default)
         {
             var assetRef = _vfxRefs[(int)vfxType];
-            var vfx = await Addressables.InstantiateAsync(assetRef, pos, rot);
-            await UniTask.Delay(TimeSpan.FromSeconds(durationSec));
-            assetRef.ReleaseInstance(vfx);
+            UniTask.Create(async () =>
+            {
+                var vfx = await Addressables.InstantiateAsync(assetRef, pos, rot);
+                await DOVirtual.DelayedCall(durationSec, () => assetRef.ReleaseInstance(vfx)).SetLink(gameObject);
+            });
         }
     }
 
@@ -58,7 +60,7 @@ namespace Particle
             {
                 _vfx.Item1 = (VfxEnum)EditorGUILayout.EnumPopup("Vfx", _vfx.Item1);
                 _vfx.Item2 = EditorGUILayout.FloatField("duration", _vfx.Item2);
-                if (GUILayout.Button("Play")) UniTask.Create(async () => await manager.PlayVfx(_vfx.Item1, _vfx.Item2));
+                if (GUILayout.Button("Play")) manager.PlayVfx(_vfx.Item1, _vfx.Item2);
             }
         }
     }

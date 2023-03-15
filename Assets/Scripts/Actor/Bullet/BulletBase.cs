@@ -39,7 +39,7 @@ namespace Actor.Bullet
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if ((enemyLayer.value & col.gameObject.layer) == 0) return;
+            if ((enemyLayer.value & 1 << col.gameObject.layer) == 0) return;
             
             OnHitBullet(col);
         }

@@ -1,5 +1,4 @@
 using System;
-using Actor;
 using UniRx;
 using UnityEngine;
 
@@ -29,7 +28,7 @@ namespace Event
         ///     ノックバックの方向
         /// </summary>
         public float KnockBackPower { get; init; }
-        
+
         public Transform Source { get; init; }
 
         public static IObservable<AttackEvent> RegisterListenerInRange(Transform self)

@@ -30,17 +30,23 @@ namespace Actor.Bullet
 
             trans.position = pos;
             _rigid.AddForce(dir, ForceMode2D.Impulse);
-            Debug.Log($"Velocity: {_rigid.velocity} dir: {dir}");
 
-            await UniTask.Delay(TimeSpan.FromSeconds(2), cancellationToken: _source.Token);
-            gameObject.SetActive(false);
+            try
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(2), cancellationToken: _source.Token);
+                gameObject.SetActive(false);
+            }
+            catch
+            {
+                /* ignore */
+            }
         }
 
         protected override void OnHitBullet(Collider2D col)
         {
             _source.Cancel();
             _source = new CancellationTokenSource();
-            
+
             gameObject.SetActive(false);
             EventPublisher.Instance.PublishEvent(new AttackEvent
             {

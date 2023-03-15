@@ -6,9 +6,9 @@ namespace Actor.Player
 {
     public partial class Player : ActorBase, IDamageableActor
     {
-        [Header("Main"), Space, SerializeField]
+        [Header("Main")] [Space] [SerializeField]
         private LayerMask enemyLayer;
-        
+
         private Animator _animator;
         private GameInput.PlayerActions _input;
         private Rigidbody2D _rigid;
@@ -63,6 +63,8 @@ namespace Actor.Player
             _stateMachine.AddTransition<IdleState, PhysicalAttackState>(PlayerState.Attack);
             _stateMachine.AddTransition<MoveState, PhysicalAttackState>(PlayerState.Attack);
             _stateMachine.AddTransition<PhysicalAttackState, IdleState>(PlayerState.Idle);
+
+            _stateMachine.AddAnyTransition<DeathState>(PlayerState.Death);
 
             _stateMachine.SetStartState<MoveState>();
         }

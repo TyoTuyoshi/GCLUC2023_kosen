@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using Scene;
 
 namespace MapSelection
 {
@@ -49,8 +50,8 @@ namespace MapSelection
         {
             try
             {
-                SceneManager.LoadScene(sceneName);
-                //SceneLoader.Instance.TransitionScene(sceneName);
+                // SceneManager.LoadScene(sceneName);
+                SceneLoader.Instance.TransitionScene(sceneName);
             }
             catch (Exception e)
             {

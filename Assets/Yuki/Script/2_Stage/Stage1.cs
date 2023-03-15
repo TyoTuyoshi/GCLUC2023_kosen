@@ -1,27 +1,28 @@
-using MapSelection;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.IO;
-using TMPro;
 using Game;
+using MapSelection;
 using Scene;
+using TMPro;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-public class Stage1 : MonoBehaviour
+public class Stage1 : MonoBehaviour, IStage
 {
     [SerializeField] private TextMeshProUGUI tmp_timer;
 
-    private float time = 0;
+    private readonly MapStateJson msjson = new();
 
-    private MapStateJson msjson = new MapStateJson();
+    private float time;
+    public float Elapsed => time;
 
     //デバッグ用スクリプト
-    void Start()
-    {
-        //Invoke("BackMapSelect", 2.0f);
-    }
-    
-    void Update()
+    // private void Start()
+    // {
+    //     //Invoke("BackMapSelect", 2.0f);
+    // }
+
+    private void Update()
     {
         time += Time.deltaTime;
         GameManager.Instance.PrevStageTime = time;
@@ -36,18 +37,15 @@ public class Stage1 : MonoBehaviour
             //StageClear();
             //Invoke("BackMapSelect", 2.0f);
         }
-        if (Keyboard.current.aKey.wasPressedThisFrame)
-        {
-            SceneLoader.Instance.TransitionScene("ResultScene");
-        }
+        // if (Keyboard.current.aKey.wasPressedThisFrame) SceneLoader.Instance.TransitionScene("ResultScene");
     }
 
     private void StageClear()
     {
         //ステージクリア扱い
         {
-            msjson.statusFlag = new bool[] { true, true, false, false };//クリア前{true,false,false,false}
-            string jsonString = JsonUtility.ToJson(msjson);
+            msjson.statusFlag = new[] { true, true, false, false }; //クリア前{true,false,false,false}
+            var jsonString = JsonUtility.ToJson(msjson);
             File.WriteAllText(Application.dataPath + "/Resources/StageStatus.json", jsonString);
         }
     }

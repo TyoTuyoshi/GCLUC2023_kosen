@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using TMPro;
+using Game;
+using Scene;
+using UnityEngine.InputSystem;
 
 public class Stage1 : MonoBehaviour
 {
@@ -11,6 +14,7 @@ public class Stage1 : MonoBehaviour
     private float time = 0;
 
     private MapStateJson msjson = new MapStateJson();
+
     //デバッグ用スクリプト
     void Start()
     {
@@ -20,8 +24,9 @@ public class Stage1 : MonoBehaviour
     void Update()
     {
         time += Time.deltaTime;
-        tmp_timer.text = "Time : " + time.ToString("f1");
-        
+        GameManager.Instance.PrevStageTime = time;
+        tmp_timer.text = time.ToString("f2");
+        //Debug.Log(GameManager.Instance.PrevStageTime);
         //if(死亡)
         {
             //Invoke("BackMapSelect", 2.0f);
@@ -30,6 +35,10 @@ public class Stage1 : MonoBehaviour
         {
             //StageClear();
             //Invoke("BackMapSelect", 2.0f);
+        }
+        if (Keyboard.current.aKey.wasPressedThisFrame)
+        {
+            SceneLoader.Instance.TransitionScene("ResultScene");
         }
     }
 

@@ -1,5 +1,8 @@
 using Actor;
+using AutoGenerate;
 using Event;
+using Particle;
+using Sounds;
 using UniRx;
 using UnityEngine;
 
@@ -31,16 +34,17 @@ namespace Gimmick
 
         private void Explosion(IEvent _)
         {
-            Debug.Log("Explosion");
             var trans = transform;
+            var pos = trans.position;
             EventPublisher.Instance.PublishEvent(new AttackEvent
             {
-                SourcePos = trans.position,
+                SourcePos = pos,
                 Amount = damage,
                 AttackRange = explosionRange,
                 KnockBackPower = explosionPower,
                 Source = trans
             });
+            ParticleManager.Instance.PlayVfx(VfxEnum.Explosion, 1, pos);
             Destroy(gameObject);
         }
     }

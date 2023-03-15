@@ -155,7 +155,7 @@ MonoBehaviour:
   bulletData: {fileID: 11400000, guid: cea6eb3f105cd5548bb86534fb3f1b18, type: 2}
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 648
 --- !u!58 &1770679559494772004
 CircleCollider2D:
   m_ObjectHideFlags: 0

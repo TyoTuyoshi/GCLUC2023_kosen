@@ -52,8 +52,6 @@ namespace Actor.Enemy
 
             private void HitAttack(string _)
             {
-                Debug.Log("Enemy Hit Attack");
-
                 var transform = Context.transform;
                 var dis =
                     (Context._playerActor.transform.position - transform.position).sqrMagnitude;

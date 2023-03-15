@@ -1,5 +1,8 @@
 using System;
+using AutoGenerate;
+using Event;
 using IceMilkTea.Core;
+using Particle;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,43 +11,69 @@ namespace Actor.Enemy
 {
     public partial class Enemy
     {
+        private static readonly int AnimIdSpeed = Animator.StringToHash("Speed");
+
+        private static readonly int AnimIdAttackRange = Animator.StringToHash("AttackRange");
+        private static readonly int AnimIdAttackTrigger = Animator.StringToHash("AttackTrigger");
+
         [Space] [Header("Attack")] [SerializeField]
         private GrowValue attackPower;
 
+        [SerializeField] private Transform attackVfxPos, attackOrigin;
+
         [SerializeField] private float attackIntervalBase;
+
+#if UNITY_EDITOR
+        private void AttackStateGizmos()
+        {
+            if (!Application.isPlaying) return;
+
+            Gizmos.color = Color.red;
+
+            var range = _animator.GetFloat(AnimIdAttackRange);
+            var trans = transform;
+            Gizmos.DrawWireSphere(attackOrigin.position, range);
+        }
+#endif
 
         private class AttackState : ImtStateMachine<Enemy, EnemyState>.State
         {
-            private static readonly int AnimIdAttackRange = Animator.StringToHash("AttackRange");
-            private static readonly int AnimIdAttackTrigger = Animator.StringToHash("AttackTrigger");
-            private CompositeDisposable _disposable;
-            
+            private IDisposable _disposable;
+
             private float _lastAttackTime;
+            private float AttackRange => Context._animator.GetFloat(AnimIdAttackRange);
 
             protected override void Enter()
             {
-                Context.OnActorEvent
-                    .Where(ev => ev is AnimationEvent { EventName: "HitAttack" })
-                    .Select(ev => ev as AnimationEvent)
-                    .Subscribe(HitAttack)
-                    .AddTo(_disposable);
+                _disposable = Context.OnAnimEvent
+                    .Where(e => e == "HitAttack")
+                    .Subscribe(HitAttack);
             }
 
-            private void HitAttack(AnimationEvent ev)
+            private void HitAttack(string _)
             {
+                var transform = Context.transform;
                 var dis =
-                    (Context._playerActor.transform.position - Context.transform.position).sqrMagnitude;
+                    (Context._playerActor.transform.position - transform.position).sqrMagnitude;
                 if (!IsInRangePlayer(dis)) return;
 
-                Context._playerActor.PublishActorEvent(new DamageEvent
+                var forward = transform.forward;
+                EventPublisher.Instance.PublishEvent(new AttackEvent
                 {
-                    Damage = Context.attackPower.GetValue(Context.Level)
+                    Amount = Context.attackPower.GetValue(Context.Level),
+                    AttackRange = AttackRange,
+                    KnockBackPower = 0.5f,
+                    SourcePos = Context.attackOrigin.position,
+                    Source = transform
                 });
+                ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.attackVfxPos.position,
+                    Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
             }
 
             protected override void Exit()
             {
                 _disposable.Dispose();
+                _disposable = null;
             }
 
             private void LookAtPlayer()
@@ -70,7 +99,7 @@ namespace Actor.Enemy
 
                     _lastAttackTime = Time.time - Random.Range(0.3f, 0f);
                     Attack();
-                    return;
+                    // return;
                 }
 
                 if (dis < Mathf.Pow(Context.playerSearchRange, 2)) // 索敵範囲内なら
@@ -82,6 +111,7 @@ namespace Actor.Enemy
                     if ((Context._initPos - pPos).sqrMagnitude < Mathf.Pow(Context.moveRange, 2))
                     {
                         Context._rigid.MovePosition(pos + (pPos - pos) * (Context.moveSpeed * Time.deltaTime));
+                        Context._animator.SetFloat(AnimIdSpeed, 1);
                         return;
                     }
                 }
@@ -100,8 +130,7 @@ namespace Actor.Enemy
             /// <returns></returns>
             private bool IsInRangePlayer(float distance)
             {
-                var range = Context._animator.GetFloat(AnimIdAttackRange);
-                return Mathf.Pow(range, 2) >= distance;
+                return Mathf.Pow(AttackRange, 2) >= distance;
             }
         }
     }

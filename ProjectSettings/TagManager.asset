@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - SoundManager
+  - Stage
   layers:
   - Default
   - TransparentFX
@@ -12,11 +13,11 @@ TagManager:
   - Gimmick
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - trap
+  - rock
+  - player
+  - enemy
+  - background
   - 
   - 
   - 
@@ -41,4 +42,28 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: backGround
+    uniqueID: 2827638453
+    locked: 0
+  - name: obj_back
+    uniqueID: 16573117
+    locked: 0
+  - name: trap
+    uniqueID: 2686947931
+    locked: 0
+  - name: Enemy
+    uniqueID: 2082812281
+    locked: 0
+  - name: Player
+    uniqueID: 2573259751
+    locked: 0
+  - name: Item
+    uniqueID: 2993911929
+    locked: 0
+  - name: Effects
+    uniqueID: 576697889
+    locked: 0
+  - name: obj_front
+    uniqueID: 409573825
     locked: 0

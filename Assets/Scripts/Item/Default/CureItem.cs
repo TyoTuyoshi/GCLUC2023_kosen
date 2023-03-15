@@ -1,4 +1,5 @@
 using Actor;
+using Event;
 using UnityEngine;
 
 namespace Item.Default
@@ -19,9 +20,10 @@ namespace Item.Default
 
         public void Use(ActorBase actor)
         {
-            actor.PublishActorEvent(new HealEvent
+            EventPublisher.Instance.PublishEvent(new HealEvent
             {
-                Amount = itemData.HealAmount
+                Amount = itemData.HealAmount,
+                Target = actor
             });
         }
     }

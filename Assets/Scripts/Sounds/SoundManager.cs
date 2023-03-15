@@ -6,11 +6,27 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
+using Utils;
 
 namespace Sounds
 {
     public class SoundManager : MonoBehaviour
     {
+        [Serializable]
+        private class SoundConcat
+        {
+            [SerializeField]
+            public int First;
+            [SerializeReference]
+            public ISoundEffect Second;
+
+            public SoundConcat(int first, ISoundEffect second)
+            {
+                First = first;
+                Second = second;
+            }
+        }
+        
         private static SoundManager _instance;
         [SerializeField] private AudioMixer audioMixer;
         [SerializeField] private AudioSource seSource, bgmSource1, bgmSource2, uiSource;
@@ -20,6 +36,7 @@ namespace Sounds
 
         [SerializeField] private GroupSoundEffect[] groupSoundEffects;
         [SerializeField] private AssetReferenceT<AudioClip>[] bgmList;
+        [SerializeField] private SoundConcat[] serialSounds, serialBgm;
 
         private Dictionary<int, ISoundEffect> _bgmDict;
         private Tween _bgmFadeTween;
@@ -36,6 +53,20 @@ namespace Sounds
         {
             _instance = null;
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            serialSounds = soundEffects
+                .Select(v => new SoundEffect { Clip = v })
+                .Concat<ISoundEffect>(groupSoundEffects)
+                .Select(v => new SoundConcat((int)Enum.Parse<SeEnum>(v.Label), v)).ToArray();
+
+            serialBgm = bgmList
+                .Select(v => new SoundEffect { Clip = v } as ISoundEffect)
+                .Select(v => new SoundConcat((int)Enum.Parse<BgmEnum>(v.Label), v)).ToArray();
+        }
+#endif
 
         /// <summary>
         ///     現在の音量が1~0に正規化されて返される
@@ -64,7 +95,7 @@ namespace Sounds
         }
 
         /// <summary>
-        /// UI効果音の再生
+        ///     UI効果音の再生
         /// </summary>
         public void PlayUIOneShot(SeEnum seType, float scale = 0.8f)
         {
@@ -105,13 +136,10 @@ namespace Sounds
 
         private void InitDict()
         {
-            _soundDict = soundEffects
-                .Select(v => new SoundEffect { Clip = v })
-                .Concat<ISoundEffect>(groupSoundEffects)
-                .ToDictionary(v => (int)Enum.Parse<SeEnum>(v.Label), v => v);
-            _bgmDict = bgmList
-                .Select(v => new SoundEffect { Clip = v } as ISoundEffect)
-                .ToDictionary(v => (int)Enum.Parse<BgmEnum>(v.Label), v => v);
+            _soundDict = serialSounds
+                .ToDictionary(v => v.First, v => v.Second);
+            _bgmDict = serialBgm
+                .ToDictionary(v => v.First, v => v.Second);
         }
 
 #if UNITY_EDITOR

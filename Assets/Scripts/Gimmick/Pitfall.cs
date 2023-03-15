@@ -1,5 +1,6 @@
 using Actor;
 using DG.Tweening;
+using Event;
 using UnityEngine;
 
 namespace Gimmick
@@ -26,9 +27,11 @@ namespace Gimmick
             if (!col.TryGetComponent(out ActorBase actor)) return;
             if ((actor.gameObject.layer & gimmickLayer) != 0) return;
 
-            actor.PublishActorEvent(new StanEvent
+            EventPublisher.Instance.PublishEvent(new StanEvent
             {
-                StanDuration = stanDurationSec
+                SourcePos = transform.position,
+                Duration = stanDurationSec,
+                EffectRange = effectDistance
             });
             DOVirtual.DelayedCall(stanDurationSec, () => Destroy(gameObject)).SetLink(gameObject);
         }

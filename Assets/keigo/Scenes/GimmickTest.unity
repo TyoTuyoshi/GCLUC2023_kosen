@@ -310,18 +310,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 6.0021157}
   m_Size: {x: 6.83, y: 11.7916765}
   m_Direction: 0
---- !u!114 &1575783668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575783660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 423503bb0b4b47209bce38c583eb696c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1601029696
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -329,13 +317,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: reachedRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: maxHp.growRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
+      propertyPath: maxHp.baseValue
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 589736435785722343, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
       propertyPath: m_Name
       value: EnemyTest
       objectReference: {fileID: 0}
     - target: {fileID: 589736435785722343, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1794460139233194372, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
       propertyPath: m_RootOrder
@@ -381,7 +381,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 645cf5ace0989dc4cb84c742d737379c, type: 3}
 --- !u!1001 &1798693881964968476
 PrefabInstance:
@@ -494,6 +495,10 @@ PrefabInstance:
     - target: {fileID: 9021222437392363854, guid: aa968cf831184dc4893f1af92ea509dd, type: 3}
       propertyPath: m_Name
       value: Barrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021222437392363854, guid: aa968cf831184dc4893f1af92ea509dd, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa968cf831184dc4893f1af92ea509dd, type: 3}

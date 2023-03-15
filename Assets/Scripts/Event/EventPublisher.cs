@@ -17,9 +17,9 @@ namespace Event
             else TryGetComponent(out _instance);
         }
 
-        public void RegisterListener<T>(GameObject self, Action<T> handler)
+        public IObservable<T> RegisterListener<T>()
         {
-            _onEvent.Where(e => e is T).Select(e => (T)e).Subscribe(handler).AddTo(self);
+            return _onEvent.Where(e => e is T).Select(e => (T)e);
         }
 
         public void PublishEvent(IEvent e)

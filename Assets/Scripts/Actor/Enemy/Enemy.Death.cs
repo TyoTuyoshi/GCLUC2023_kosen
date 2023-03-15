@@ -1,4 +1,7 @@
+using AutoGenerate;
 using IceMilkTea.Core;
+using Particle;
+using UnityEngine;
 
 namespace Actor.Enemy
 {
@@ -8,8 +11,10 @@ namespace Actor.Enemy
         {
             protected override void Enter()
             {
-                // TODO: しっかりしたデスエフェクト
                 Destroy(Context.gameObject);
+
+                var pos = Context.transform.position;
+                ParticleManager.Instance.PlayVfx(VfxEnum.Death, 1.5f, pos + new Vector3(0, 0.8f));
             }
         }
     }

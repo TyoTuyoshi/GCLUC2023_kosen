@@ -3,27 +3,22 @@ using AutoGenerate;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEditor;
-using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.VFX;
 using Utils;
+#if UNITY_EDITOR
+using UnityEditor.AddressableAssets.Settings;
+#endif
 
 namespace Particle
 {
     public class ParticleManager : MonoBehaviour
     {
         private static ParticleManager _instance;
-        [SerializeField] private AddressableAssetGroup vfxGroup;
-        private AssetReferenceT<VisualEffect>[] _vfxRefs;
-        public AddressableAssetGroup VfxGroup => vfxGroup;
+        [SerializeField] private AssetReferenceT<VisualEffect>[] vfxRefs;
 
         public static ParticleManager Instance => _instance ??= FindObjectOfType<ParticleManager>();
-
-        private void Awake()
-        {
-            _vfxRefs = vfxGroup.entries.Select(e => new AssetReferenceT<VisualEffect>(e.guid)).ToArray();
-        }
 
         private void OnDestroy()
         {
@@ -32,13 +27,23 @@ namespace Particle
 
         public void PlayVfx(VfxEnum vfxType, float durationSec, Vector3 pos = default, Quaternion rot = default)
         {
-            var assetRef = _vfxRefs[(int)vfxType];
+            var assetRef = vfxRefs[(int)vfxType];
             UniTask.Create(async () =>
             {
                 var vfx = await Addressables.InstantiateAsync(assetRef, pos, rot);
                 await DOVirtual.DelayedCall(durationSec, () => assetRef.ReleaseInstance(vfx)).SetLink(gameObject);
             });
         }
+
+#if UNITY_EDITOR
+        [SerializeField] private AddressableAssetGroup vfxGroup;
+        public AddressableAssetGroup VfxGroup => vfxGroup;
+        private void OnValidate()
+        {
+            if (vfxGroup != null)
+                vfxRefs = vfxGroup.entries.Select(e => new AssetReferenceT<VisualEffect>(e.guid)).ToArray();
+        }
+#endif
     }
 
 #if UNITY_EDITOR

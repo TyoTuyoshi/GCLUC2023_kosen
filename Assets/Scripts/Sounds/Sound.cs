@@ -18,12 +18,19 @@ namespace Sounds
         public void Play(AudioSource source);
     }
 
+    [Serializable]
     public class SoundEffect : ISoundEffect
     {
         private AudioClip _instance;
 
-        private string _label;
-        public AssetReferenceT<AudioClip> Clip { get; init; }
+        [SerializeField] private string label;
+        [SerializeField] private AssetReferenceT<AudioClip> clipRef;
+
+        public AssetReferenceT<AudioClip> Clip
+        {
+            get => clipRef;
+            init => clipRef = value;
+        }
 
         public void Dispose()
         {
@@ -45,12 +52,25 @@ namespace Sounds
             source.Play();
         }
 
-        public string Label => _label ??= AssetDatabase
-            .GUIDToAssetPath(Clip.AssetGUID)
-            .Split("/")
-            .Last()
-            .Split(".")
-            .First();
+#if UNITY_EDITOR
+        public string Label
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(label))
+                    label = AssetDatabase
+                        .GUIDToAssetPath(Clip.AssetGUID)
+                        .Split("/")
+                        .Last()
+                        .Split(".")
+                        .First();
+
+                return label;
+            }
+        }
+#else
+        public string Label => label;
+#endif
     }
 
     /// <summary>
@@ -81,6 +101,8 @@ namespace Sounds
             source.Play();
         }
 
+        public string Label => label;
+
         private async UniTask<AudioClip> LoadClip(int index)
         {
             _instances ??= new AudioClip[clips.Length];
@@ -88,7 +110,5 @@ namespace Sounds
                 _instances[index] = await Addressables.LoadAssetAsync<AudioClip>(clips[index]);
             return _instances[index];
         }
-
-        public string Label => label;
     }
 }

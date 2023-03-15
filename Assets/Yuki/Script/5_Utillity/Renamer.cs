@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -43,7 +44,7 @@ public class Renamer : EditorWindow
 
         if (GUILayout.Button("階層表示"))
         {
-            foreach (GameObject select in UnityEditor.Selection.gameObjects)
+            foreach (GameObject select in Selection.gameObjects)
             {
                 Debug.Log($"{select.name} : {select.transform.GetSiblingIndex()}");
             }
@@ -53,7 +54,7 @@ public class Renamer : EditorWindow
         {
             int num = 0;
             var selectObjects 
-                = UnityEditor.Selection.gameObjects.OrderBy(n => n.transform.GetSiblingIndex());
+                = Selection.gameObjects.OrderBy(n => n.transform.GetSiblingIndex());
 
             foreach (GameObject select in selectObjects)
             {
@@ -76,3 +77,4 @@ public class Renamer : EditorWindow
         EditorGUILayout.EndVertical();
     }
 }
+#endif

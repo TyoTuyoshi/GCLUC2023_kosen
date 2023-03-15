@@ -10515,6 +10515,10 @@ PrefabInstance:
       propertyPath: gunShotOrigin
       value: 
       objectReference: {fileID: 198805003}
+    - target: {fileID: 1148114411241586263, guid: 98f97166638a13645a487c3c45c570f8, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 1510058069499625251, guid: 98f97166638a13645a487c3c45c570f8, type: 3}
       propertyPath: eventSeList.Array.size
       value: 3

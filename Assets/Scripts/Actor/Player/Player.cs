@@ -1,4 +1,3 @@
-using Game;
 using IceMilkTea.Core;
 using UnityEditor;
 using UnityEngine;
@@ -7,6 +6,9 @@ namespace Actor.Player
 {
     public partial class Player : ActorBase, IDamageableActor
     {
+        [Header("Main"), Space, SerializeField]
+        private LayerMask enemyLayer;
+        
         private Animator _animator;
         private GameInput.PlayerActions _input;
         private Rigidbody2D _rigid;
@@ -32,7 +34,16 @@ namespace Actor.Player
         {
             _stateMachine.Update();
 
-            if (_input.Attack.IsPressed()) _stateMachine.SendEvent(PlayerState.GunAttack);
+            if (_input.Attack.IsPressed()) TransAttack();
+        }
+
+        private void TransAttack()
+        {
+            // 近くに敵がいるか
+            if (Physics2D.OverlapCircle(_rigid.position, _animator.GetFloat(AnimIdAttackRange), enemyLayer) != null)
+                _stateMachine.SendEvent(PlayerState.Attack);
+            else
+                _stateMachine.SendEvent(PlayerState.GunAttack);
         }
 
         private void InitStateMachine()

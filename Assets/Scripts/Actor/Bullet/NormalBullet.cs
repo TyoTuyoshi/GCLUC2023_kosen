@@ -24,7 +24,14 @@ namespace Actor.Bullet
         public override async void Shot(Vector3 pos, Vector3 dir)
         {
             if (_rigid == null) TryGetComponent(out _rigid);
-            await UniTask.DelayFrame(4, cancellationToken: _source.Token);
+            try
+            {
+                await UniTask.DelayFrame(4, cancellationToken: _source.Token);
+            }
+            catch
+            {
+                /* ignore */
+            }
 
             var trans = transform;
 

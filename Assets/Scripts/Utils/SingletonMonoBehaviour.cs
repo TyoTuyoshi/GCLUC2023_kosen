@@ -1,4 +1,5 @@
 using System;
+using Game;
 using UnityEngine;
 
 namespace Utils
@@ -10,9 +11,9 @@ namespace Utils
     /// <remarks>乱用はやめよう</remarks>
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private T _instance;
+        private static T _instance;
 
-        public T Instance
+        public static T Instance
         {
             get
             {

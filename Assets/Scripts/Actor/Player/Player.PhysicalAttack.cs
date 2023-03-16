@@ -1,5 +1,6 @@
 using System;
 using AutoGenerate;
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Event;
 using IceMilkTea.Core;
@@ -52,6 +53,9 @@ namespace Actor.Player
                 var forward = transform.forward;
                 ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.physicalAttackVfxPos.position,
                     Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
+                
+                var impulse = CinemachineImpulseManager.Instance.NewImpulseEvent();
+                CinemachineImpulseManager.Instance.AddImpulseEvent(impulse);
             }
 
             protected override void Exit()

@@ -1,4 +1,5 @@
 using IceMilkTea.Core;
+using UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,8 +10,10 @@ namespace Actor.Player
         [Header("Main")] [Space] [SerializeField]
         private LayerMask enemyLayer;
 
+        [SerializeField] private TipsUI tipsUI;
+
         private Animator _animator;
-        private GameInput.PlayerActions _input;
+        public GameInput.PlayerActions Input { get; private set; }
         private Rigidbody2D _rigid;
         private ImtStateMachine<Player, PlayerState> _stateMachine;
         public override int Level => 1;
@@ -20,8 +23,8 @@ namespace Actor.Player
 
         private void Start()
         {
-            _input = new GameInput().Player;
-            _input.Enable();
+            Input = new GameInput().Player;
+            Input.Enable();
 
             TryGetComponent(out _rigid);
             TryGetComponent(out _animator);
@@ -34,7 +37,7 @@ namespace Actor.Player
         {
             _stateMachine.Update();
 
-            if (_input.Attack.IsPressed()) TransAttack();
+            if (Input.Attack.IsPressed()) TransAttack();
         }
 
         private void TransAttack()

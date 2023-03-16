@@ -1228,8 +1228,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropItems:
-  - first: {fileID: 11400000, guid: 7c59210dec121594ea4918e009c0e7df, type: 2}
+  - first: {fileID: 11400000, guid: 40b293368e8e9d840a9684294479b3e4, type: 2}
     second: 1
+  - first: {fileID: 0}
+    second: 5
 --- !u!114 &6112146909973017150
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,4 @@
-using System;
 using IceMilkTea.Core;
-using Sounds;
-using UniRx;
 using UnityEngine;
 
 namespace Actor.Player
@@ -43,7 +40,7 @@ namespace Actor.Player
 
             private Vector2 Move(Vector2 current)
             {
-                var value = Context._input.Move.ReadValue<Vector2>();
+                var value = Context.Input.Move.ReadValue<Vector2>();
                 Context._animator.SetFloat(AnimIdSpeed, value.sqrMagnitude > 0.1f ? 1 : 0);
                 if (value.sqrMagnitude < 0.1f) return current;
 
@@ -61,7 +58,7 @@ namespace Actor.Player
 
             private Vector2 Jump(Vector2 current)
             {
-                if (!_isJumping && Context._input.Jump.ReadValue<float>() > 0.1f)
+                if (!_isJumping && Context.Input.Jump.ReadValue<float>() > 0.1f)
                 {
                     _jumpDelta = 0;
                     _isJumping = true;

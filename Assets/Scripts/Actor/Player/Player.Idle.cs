@@ -14,7 +14,7 @@ namespace Actor.Player
 
             protected override void Update()
             {
-                if (Context._input.Move.IsPressed() || Context._input.Jump.IsPressed())
+                if (Context.Input.Move.IsPressed() || Context.Input.Jump.IsPressed())
                     StateMachine.SendEvent(PlayerState.Move);
             }
         }

@@ -11,6 +11,9 @@ namespace Actor.Enemy
         {
             protected override void Enter()
             {
+                Context.TryGetComponent(out EnemyLootTable lootTable);
+                lootTable.OnDeath();
+                
                 Destroy(Context.gameObject);
 
                 var pos = Context.transform.position;

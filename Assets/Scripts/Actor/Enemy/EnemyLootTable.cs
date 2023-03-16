@@ -1,3 +1,4 @@
+#nullable enable
 using System.Linq;
 using Item;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Actor.Enemy
     public class EnemyLootTable : MonoBehaviour
     {
         [Header("アイテムと確率を設定")] [SerializeField]
-        private Pair<ItemDataScriptable, float>[] dropItems;
+        private Pair<ItemDataScriptable?, float>[] dropItems = null!;
 
         public void OnDeath()
         {
@@ -32,9 +33,9 @@ namespace Actor.Enemy
             Debug.LogError("アイテムの抽選ができませんでした。", gameObject);
         }
 
-        private void DropItem(IItemData data)
+        private void DropItem(IItemData? data)
         {
-            if (data.ItemPrefab is not MonoBehaviour prefab) return;
+            if (data?.ItemPrefab is not MonoBehaviour prefab) return;
 
             Instantiate(prefab, transform.position, Quaternion.identity);
         }

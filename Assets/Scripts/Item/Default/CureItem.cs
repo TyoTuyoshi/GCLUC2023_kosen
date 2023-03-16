@@ -7,18 +7,18 @@ namespace Item.Default
     /// <summary>
     ///     回復用のアイテム
     /// </summary>
-    public class CureItem : MonoBehaviour, IItem
+    public class CureItem : ItemBase
     {
         [SerializeField] private CureItemData itemData;
-        public IItemData ItemData => itemData;
+        public override IItemData ItemData => itemData;
 
-        public void PickItem()
+        public override void PickItem()
         {
             // TODO: 演出
             Destroy(gameObject);
         }
 
-        public void Use(ActorBase actor)
+        public override void Use(ActorBase actor)
         {
             EventPublisher.Instance.PublishEvent(new HealEvent
             {

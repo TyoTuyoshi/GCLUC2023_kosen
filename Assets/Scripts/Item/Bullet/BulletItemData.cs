@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Item.Bullet
 {
     [CreateAssetMenu(fileName = "BulletData", menuName = "Data/Bullet", order = 0)]
-    public class BulletItemData : ScriptableObject, IItemData
+    public class BulletItemData : ItemDataScriptable
     {
         [SerializeField] private string itemName;
         [SerializeField] private string description;
@@ -13,9 +13,9 @@ namespace Item.Bullet
         [SerializeField] private float damageAmount = 1f;
         public float Damage => damageAmount;
 
-        public string Name => itemName;
-        public string Description => description;
-        public ItemRare Rare => rare;
-        public IItem ItemPrefab => bulletPrefab;
+        public override string Name => itemName;
+        public override string Description => description;
+        public override ItemRare Rare => rare;
+        public override IItem ItemPrefab => bulletPrefab;
     }
 }

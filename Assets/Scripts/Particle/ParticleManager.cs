@@ -3,6 +3,8 @@ using System.Linq;
 using AutoGenerate;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
+using UniRx.Triggers;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -60,6 +62,7 @@ namespace Particle
             }
 
             var obj = await Addressables.InstantiateAsync(vfxRefs[(int)vfxType], pos, rot);
+            obj.OnDestroyAsObservable().Subscribe(_ => Addressables.ReleaseInstance(obj)).AddTo(obj);
             obj.TryGetComponent(out VisualEffect instance);
             return instance;
         }

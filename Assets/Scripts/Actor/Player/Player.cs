@@ -1,3 +1,4 @@
+using Cinemachine;
 using IceMilkTea.Core;
 using UI;
 using UnityEditor;
@@ -12,6 +13,7 @@ namespace Actor.Player
 
         [SerializeField] private TipsUI tipsUI;
 
+        private CinemachineImpulseSource _impulseSource;
         private Animator _animator;
         public GameInput.PlayerActions Input { get; private set; }
         private Rigidbody2D _rigid;
@@ -28,6 +30,7 @@ namespace Actor.Player
 
             TryGetComponent(out _rigid);
             TryGetComponent(out _animator);
+            TryGetComponent(out _impulseSource);
 
             InitStateMachine();
             InitDamageable();

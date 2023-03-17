@@ -138,5 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94afc9e461a34cf1825377b5aeda7714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  se: 6
+  executeInEditor: 1
+  outputEvent:
+    m_Name: OnPlaySe
+  se: 7
   scale: 0.8

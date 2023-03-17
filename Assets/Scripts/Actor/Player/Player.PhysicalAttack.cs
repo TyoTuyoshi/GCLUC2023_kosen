@@ -54,8 +54,7 @@ namespace Actor.Player
                 ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.physicalAttackVfxPos.position,
                     Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
                 
-                var impulse = CinemachineImpulseManager.Instance.NewImpulseEvent();
-                CinemachineImpulseManager.Instance.AddImpulseEvent(impulse);
+                Context._impulseSource.GenerateImpulse();                
             }
 
             protected override void Exit()

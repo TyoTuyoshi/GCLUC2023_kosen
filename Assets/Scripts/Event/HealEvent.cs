@@ -1,4 +1,6 @@
+using System;
 using Actor;
+using UniRx;
 
 namespace Event
 {
@@ -16,5 +18,12 @@ namespace Event
         ///     対象
         /// </summary>
         public ActorBase Target { get; init; }
+
+        public static IObservable<HealEvent> RegisterListenerInTarget(ActorBase actor)
+        {
+            return EventPublisher.Instance
+                .RegisterListener<HealEvent>()
+                .Where(e => e.Target == actor);
+        }
     }
 }

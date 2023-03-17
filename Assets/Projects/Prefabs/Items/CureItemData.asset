@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6251be94d874810bcd4bc40ae1ff573, type: 3}
+  m_Name: CureItemData
+  m_EditorClassIdentifier: 
+  itemName: "\u30BE\u30F3\u30D3\u306E\u8840\u6DB2"
+  description: "\u30BE\u30F3\u30D3\u306E\u8840\u6DB2\u3060\u3051\u3069\u56DE\u5FA9\u3059\u308B"
+  rare: 0
+  item: {fileID: 8843106748895380060, guid: d1dd7b4f1ac27df489a5935ced95f9dd, type: 3}
+  healAmount: 2

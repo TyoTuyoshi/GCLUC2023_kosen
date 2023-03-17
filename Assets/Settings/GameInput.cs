@@ -53,6 +53,24 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ItemSelect"",
+                    ""type"": ""Value"",
+                    ""id"": ""b61206b0-1bac-47bb-bd24-e4cd05899270"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ItemUse"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ad223c3-43a4-4632-8cb2-b1c988e3edb2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +150,28 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c171985-e45e-444d-8178-e83384fbe51c"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc6805bc-fd9f-4d63-85e2-92675899ce7c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemUse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +183,8 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_ItemSelect = m_Player.FindAction("ItemSelect", throwIfNotFound: true);
+        m_Player_ItemUse = m_Player.FindAction("ItemUse", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +247,8 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_ItemSelect;
+    private readonly InputAction m_Player_ItemUse;
     public struct PlayerActions
     {
         private @GameInput m_Wrapper;
@@ -212,6 +256,8 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @ItemSelect => m_Wrapper.m_Player_ItemSelect;
+        public InputAction @ItemUse => m_Wrapper.m_Player_ItemUse;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +276,12 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @ItemSelect.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemSelect;
+                @ItemSelect.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemSelect;
+                @ItemSelect.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemSelect;
+                @ItemUse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemUse;
+                @ItemUse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemUse;
+                @ItemUse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemUse;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +295,12 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @ItemSelect.started += instance.OnItemSelect;
+                @ItemSelect.performed += instance.OnItemSelect;
+                @ItemSelect.canceled += instance.OnItemSelect;
+                @ItemUse.started += instance.OnItemUse;
+                @ItemUse.performed += instance.OnItemUse;
+                @ItemUse.canceled += instance.OnItemUse;
             }
         }
     }
@@ -252,5 +310,7 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnItemSelect(InputAction.CallbackContext context);
+        void OnItemUse(InputAction.CallbackContext context);
     }
 }

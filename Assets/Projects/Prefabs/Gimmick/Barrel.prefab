@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9021222437392363853}
   - component: {fileID: 9021222437392363843}
   - component: {fileID: 70842265}
+  - component: {fileID: 7376699172940264726}
   m_Layer: 3
   m_Name: Barrel
   m_TagString: Untagged
@@ -87,8 +88,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 409573825
-  m_SortingLayer: 8
+  m_SortingLayerID: 826290297
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: de46e08ba387a65499ee9d7df8820be7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -117,3 +118,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.265
+--- !u!114 &7376699172940264726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9021222437392363854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f13e13152e0420e988156e1c69e4cdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

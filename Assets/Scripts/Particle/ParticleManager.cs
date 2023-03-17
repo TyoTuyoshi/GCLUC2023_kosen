@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
 using AutoGenerate;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
+using UniRx.Triggers;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -15,8 +18,10 @@ namespace Particle
 {
     public class ParticleManager : MonoBehaviour
     {
+        private const int MaxPooledInstance = 10;
         private static ParticleManager _instance;
         [SerializeField] private AssetReferenceT<VisualEffect>[] vfxRefs;
+        private readonly Dictionary<VfxEnum, Stack<VisualEffect>> _pool = new();
 
         public static ParticleManager Instance => _instance ??= FindObjectOfType<ParticleManager>();
 
@@ -27,12 +32,39 @@ namespace Particle
 
         public void PlayVfx(VfxEnum vfxType, float durationSec, Vector3 pos = default, Quaternion rot = default)
         {
-            var assetRef = vfxRefs[(int)vfxType];
             UniTask.Create(async () =>
             {
-                var vfx = await Addressables.InstantiateAsync(assetRef, pos, rot);
-                await DOVirtual.DelayedCall(durationSec, () => assetRef.ReleaseInstance(vfx)).SetLink(gameObject);
+                var vfx = await GetVfx(vfxType, pos, rot);
+                vfx.Play();
+                await DOVirtual.DelayedCall(durationSec, () => ReturnVfx(vfxType, vfx)).SetLink(gameObject);
             });
+        }
+
+        private void ReturnVfx(VfxEnum vfxType, VisualEffect vfx)
+        {
+            if (_pool[vfxType].Count >= MaxPooledInstance)
+                Addressables.ReleaseInstance(vfx.gameObject);
+            else
+                _pool[vfxType].Push(vfx);
+        }
+
+        private async UniTask<VisualEffect> GetVfx(VfxEnum vfxType, Vector3 pos = default, Quaternion rot = default)
+        {
+            if (!_pool.ContainsKey(vfxType)) _pool[vfxType] = new Stack<VisualEffect>(MaxPooledInstance);
+            var vfxPool = _pool[vfxType];
+
+            if (vfxPool.TryPop(out var pooledInstance))
+            {
+                var instanceTrans = pooledInstance.transform;
+                instanceTrans.position = pos;
+                instanceTrans.rotation = rot;
+                return pooledInstance;
+            }
+
+            var obj = await Addressables.InstantiateAsync(vfxRefs[(int)vfxType], pos, rot);
+            obj.OnDestroyAsObservable().Subscribe(_ => Addressables.ReleaseInstance(obj)).AddTo(obj);
+            obj.TryGetComponent(out VisualEffect instance);
+            return instance;
         }
 
 #if UNITY_EDITOR

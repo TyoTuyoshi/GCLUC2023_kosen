@@ -19,6 +19,10 @@ namespace Actor.Player
                 .RegisterListenerInRange(transform)
                 .Subscribe(OnDamage)
                 .AddTo(this);
+            HealEvent
+                .RegisterListenerInTarget(this)
+                .Subscribe(OnHeal)
+                .AddTo(this);
         }
 
         private void OnDamage(AttackEvent e)
@@ -32,6 +36,11 @@ namespace Actor.Player
             DOVirtual.DelayedCall(1f, () => _rigid.velocity = Vector2.zero).SetLink(gameObject);
 
             _stateMachine.SendEvent(CurrentHp <= 0 ? PlayerState.Death : PlayerState.Damage);
+        }
+
+        private void OnHeal(HealEvent e)
+        {
+            CurrentHp = Mathf.Clamp(CurrentHp + e.Amount, 0, MaxHp);
         }
     }
 }

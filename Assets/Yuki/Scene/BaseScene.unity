@@ -476,6 +476,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6cdfb18e1c44c695de0338dd2bf25a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vfxRefs:
+  - m_AssetGUID: 6b0d2964e3e7c1f4d9db25979558c15f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8576135fb641e3640a5a45378f7512e5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f3df6f8561a068046b5a32463a3c692e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 86a00203633e69742a072bcdbbd9aedf
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   vfxGroup: {fileID: 11400000, guid: f717cecad08c69942ba058127c8d61d0, type: 2}
 --- !u!4 &1474060633
 Transform:
@@ -622,6 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a8763887074481842f7eb3185727ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrevStageTime: 0
 --- !u!4 &1925283470
 Transform:
   m_ObjectHideFlags: 0

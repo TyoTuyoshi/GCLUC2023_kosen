@@ -35,7 +35,8 @@ namespace Event
         {
             return EventPublisher.Instance
                 .RegisterListener<AttackEvent>()
-                .Where(e => e.Source != null && e.Source.GetInstanceID() != self.GetInstanceID())
+                .Where(e => e.Source != null && e.Source.GetInstanceID() != self.GetInstanceID() &&
+                            e.Source.gameObject.layer != self.gameObject.layer)
                 .Where(e => (self.position - e.SourcePos).sqrMagnitude < Mathf.Pow(e.AttackRange, 2));
         }
     }

@@ -50,7 +50,7 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 1
+      - m_Value: 2
         m_Name: Size
         m_Overridden: 1
     m_Vector2f:
@@ -62,7 +62,7 @@ VisualEffect:
       m_Array: []
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 7.722769, y: 7.722769, z: 7.722769, w: 0}
+      - m_Value: {x: 13.765328, y: 0.5136316, z: 0, w: 1}
         m_Name: Color
         m_Overridden: 1
     m_Uint:
@@ -120,5 +120,5 @@ VFXRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 576697889
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0

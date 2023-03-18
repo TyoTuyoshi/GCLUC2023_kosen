@@ -44,10 +44,7 @@ namespace Actor.Enemy
 
                 // 移動方向を向く
                 var euler = Context.transform.rotation.eulerAngles;
-                if (Context._rigid.position.x < dir.x)
-                    euler.y = -180;
-                else
-                    euler.y = 0;
+                euler.y = Context._rigid.position.x < dir.x ? -180 : 0;
                 Context.transform.rotation = Quaternion.Euler(euler);
             }
 
@@ -69,10 +66,8 @@ namespace Actor.Enemy
             private Vector2 SetDestination()
             {
                 var range = Context.moveRange;
-                var randomPos = Vector2.zero;
-                while (randomPos.sqrMagnitude == 0 || !CanReach(randomPos))
-                    randomPos = Context._initPos +
-                                new Vector2(Random.Range(-range, range), Random.Range(-range, range));
+                var randomPos = Context._initPos + new Vector2(Random.Range(-range, range), Random.Range(-range, range));
+                if (!CanReach(randomPos)) randomPos = Context._initPos;
 
                 return randomPos;
             }

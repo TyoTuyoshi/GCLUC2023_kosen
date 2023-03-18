@@ -36,15 +36,14 @@ namespace Actor.Enemy
 
         private void OnDamage(AttackEvent e)
         {
-            hpBar.value = CurrentHp / MaxHp;
-
             CurrentHp = Mathf.Clamp(CurrentHp - e.Amount, 0, MaxHp);
+            hpBar.value = CurrentHp / MaxHp;
 
             // ノックバック
             var dir = (_rigid.position - (Vector2)e.SourcePos).normalized * e.KnockBackPower;
             _rigid.AddForce(dir, ForceMode2D.Impulse);
             // 一定時間後にリセット
-            DOVirtual.DelayedCall(1f, () => _rigid.velocity = Vector2.zero).SetLink(gameObject);
+            // DOVirtual.DelayedCall(1f, () => _rigid.velocity = Vector2.zero).SetLink(gameObject);
 
             _stateMachine.SendEvent(CurrentHp <= 0 ? EnemyState.Death : EnemyState.Damage);
         }

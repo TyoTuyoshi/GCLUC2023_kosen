@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 1952915345959144210}
   - component: {fileID: 1952915345959144216}
   - component: {fileID: 1857369897219697023}
+  - component: {fileID: 1576488125411598412}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -346,7 +347,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 5.92}
@@ -477,6 +478,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f13e13152e0420e988156e1c69e4cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!70 &1576488125411598412
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148114411241586262}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 1.38}
+  m_Size: {x: 2.75, y: 0.0001}
+  m_Direction: 0
 --- !u!1 &2641984054223799049
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,7 +975,7 @@ SpriteRenderer:
   m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 968ccbcfcea4b71428dccae4c214bef3, type: 3}
-  m_Color: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
+  m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 0.53333336}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

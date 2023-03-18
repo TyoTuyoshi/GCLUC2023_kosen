@@ -1305,7 +1305,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e227e7de9de4b6ba13f83e986a5a446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderers: []
+  renderers:
+  - {fileID: 7419895160508868198}
+  - {fileID: 5569983205425117350}
+  - {fileID: 6022743986081521574}
+  - {fileID: 187494041224945342}
+  - {fileID: 6240812668268207567}
+  - {fileID: 4353347046646913484}
+  - {fileID: 7110962044949859489}
   _defaultOrder: 
   _afterOrder: 0
 --- !u!1 &6716864406304263678

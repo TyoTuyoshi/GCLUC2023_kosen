@@ -50,21 +50,26 @@ namespace Particle
 
         private async UniTask<VisualEffect> GetVfx(VfxEnum vfxType, Vector3 pos = default, Quaternion rot = default)
         {
-            if (!_pool.ContainsKey(vfxType)) _pool[vfxType] = new Stack<VisualEffect>(MaxPooledInstance);
-            var vfxPool = _pool[vfxType];
-
-            if (vfxPool.TryPop(out var pooledInstance))
+            while (true)
             {
-                var instanceTrans = pooledInstance.transform;
-                instanceTrans.position = pos;
-                instanceTrans.rotation = rot;
-                return pooledInstance;
-            }
+                if (!_pool.ContainsKey(vfxType)) _pool[vfxType] = new Stack<VisualEffect>(MaxPooledInstance);
+                var vfxPool = _pool[vfxType];
 
-            var obj = await Addressables.InstantiateAsync(vfxRefs[(int)vfxType], pos, rot);
-            obj.OnDestroyAsObservable().Subscribe(_ => Addressables.ReleaseInstance(obj)).AddTo(obj);
-            obj.TryGetComponent(out VisualEffect instance);
-            return instance;
+                if (vfxPool.TryPop(out var pooledInstance))
+                {
+                    if (pooledInstance == null) continue;
+
+                    var instanceTrans = pooledInstance.transform;
+                    instanceTrans.position = pos;
+                    instanceTrans.rotation = rot;
+                    return pooledInstance;
+                }
+
+                var obj = await Addressables.InstantiateAsync(vfxRefs[(int)vfxType], pos, rot);
+                obj.OnDestroyAsObservable().Subscribe(_ => Addressables.ReleaseInstance(obj)).AddTo(obj);
+                obj.TryGetComponent(out VisualEffect instance);
+                return instance;
+            }
         }
 
 #if UNITY_EDITOR

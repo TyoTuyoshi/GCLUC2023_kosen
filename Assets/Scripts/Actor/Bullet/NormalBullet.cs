@@ -61,7 +61,7 @@ namespace Actor.Bullet
                 AttackRange = 1,
                 KnockBackPower = 0.5f,
                 Source = transform,
-                SourcePos = col.transform.position
+                SourcePos = col.transform.position + new Vector3(0, 1)
             });
         }
     }

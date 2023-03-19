@@ -23,7 +23,7 @@ namespace Actor.Enemy
             CurrentHp = MaxHp;
 
             AttackEvent
-                .RegisterListenerInRange(transform)
+                .RegisterListenerInRange(origin)
                 .Subscribe(OnDamage)
                 .AddTo(this);
         }

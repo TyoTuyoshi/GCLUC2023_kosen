@@ -1,14 +1,14 @@
-using System;
-using System.Linq;
 using IceMilkTea.Core;
 using UnityEditor;
 using UnityEngine;
-using Utils;
 
 namespace Actor.Enemy
 {
     public partial class Enemy : ActorBase, IDamageableActor
     {
+        [SerializeField] [Header("Main")] [Space]
+        private Transform origin;
+
         private Animator _animator;
         private Vector2 _initPos; // 初期状態の座標
         private float _lastPlayerSearched;

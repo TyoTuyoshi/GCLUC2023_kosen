@@ -33,7 +33,7 @@ namespace Actor
         {
             var order = 0;
 
-            foreach (var sortedRenderer in from obj in _objs orderby obj select  obj)
+            foreach (var sortedRenderer in from obj in _objs orderby obj select obj)
             {
                 sortedRenderer.Order = order;
                 order = sortedRenderer.Order;
@@ -49,15 +49,6 @@ namespace Actor
             private readonly SpriteRenderer _spriteRenderer;
 
             public readonly Transform Transform;
-
-            public SortedRenderer(SpriteRendererComposite composite, SpriteRenderer spriteRenderer, Transform transform)
-            {
-                Transform = transform;
-                _composite = composite;
-                _spriteRenderer = spriteRenderer;
-
-                if (_composite == null) _isNullComposite = true;
-            }
 
             public SortedRenderer(SpawnDestroyEvent e)
             {

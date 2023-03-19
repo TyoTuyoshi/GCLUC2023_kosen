@@ -1,18 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using Game;
-using UnityEngine;
-using UnityEngine.UI;
 using Scene;
 using TMPro;
+using UnityEngine;
 
 public class Result : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField] private TextMeshProUGUI result;
-    void Start()
+    [SerializeField] private TextMeshProUGUI gameOverText;
+
+    private void Start()
     {
-        result.text = $"Result:{GameManager.Instance.PrevStageTime}";
+        const string gameOver = "ゲームオーバー";
+        gameOverText.text = "";
+        result.text = "";
+        if (GameManager.Instance.IsGameOver)
+        {
+            gameOverText.text = gameOver;
+            gameOverText.maxVisibleCharacters = 0;
+            DOTween.Sequence()
+                .SetDelay(1f)
+                .Append(DOTween
+                    .To(() => gameOverText.maxVisibleCharacters, v => gameOverText.maxVisibleCharacters = v,
+                        gameOver.Length, 0.3f))
+                .Play()
+                .SetLink(gameObject);
+        }
+        else
+        {
+            result.text = $"Result：{GameManager.Instance.PrevStageTime}";
+        }
     }
 
     public void BackSelectScene()

@@ -49,8 +49,8 @@ namespace Scene
                 .SetLink(gameObject)
                 .ToUniTask();
             await UniTask.WhenAll(
-                SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene()).ToUniTask(),
-                SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).ToUniTask()
+                SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).ToUniTask(),
+                SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene()).ToUniTask()
             );
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
             await DOTween.ToAlpha(() => fadePanel.color, value => fadePanel.color = value, 0, 0.5f)

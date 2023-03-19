@@ -1127,6 +1127,7 @@ GameObject:
   - component: {fileID: 6112146910835240284}
   - component: {fileID: 697072688603097550}
   - component: {fileID: -1155437410628887357}
+  - component: {fileID: 5811437755119539009}
   m_Layer: 9
   m_Name: ZombiePrefab
   m_TagString: Untagged
@@ -1158,6 +1159,7 @@ Transform:
   - {fileID: 1497947459}
   - {fileID: 8659607342714748024}
   - {fileID: 6127947697119582994}
+  - {fileID: 5072579867600136767}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1192,7 +1194,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 5.9424353}
@@ -1253,6 +1255,7 @@ MonoBehaviour:
   attackVfxPos: {fileID: 6112146911205161453}
   attackOrigin: {fileID: 1497947459}
   attackIntervalBase: 0.2
+  origin: {fileID: 5072579867600136767}
   maxHp:
     baseValue: 10
     growRate: 1
@@ -1317,6 +1320,22 @@ MonoBehaviour:
   - {fileID: 274632453080046093}
   _defaultOrder: 
   _afterOrder: 0
+--- !u!70 &5811437755119539009
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6700686723643186130}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 1.38}
+  m_Size: {x: 2.75, y: 0.0001}
+  m_Direction: 0
 --- !u!1 &6716864406304263678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,6 +1492,37 @@ Transform:
   - {fileID: 630901781010374721}
   m_Father: {fileID: 4671245382576642567}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7230304773179200701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5072579867600136767}
+  m_Layer: 9
+  m_Name: Oirgin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5072579867600136767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7230304773179200701}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5491443506103108529}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8488532725691215655
 GameObject:

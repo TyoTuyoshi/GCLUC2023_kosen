@@ -31,7 +31,7 @@ namespace Actor.Player
 
             private void OnDeath(string _)
             {
-                GameManager.Instance.GoToResult();
+                GameManager.Instance.GoToResult(true);
                 Destroy(Context.gameObject);
             }
         }

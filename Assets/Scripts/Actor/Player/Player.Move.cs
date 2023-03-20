@@ -15,6 +15,7 @@ namespace Actor.Player
         [SerializeField] private float jumpPower = 4f;
         [SerializeField] private float gravity = 6f;
         [SerializeField] private Transform shadow;
+        private static readonly int AdnimIdJumpTrigger = Animator.StringToHash("JumpTrigger");
 
         private class MoveState : ImtStateMachine<Player, PlayerState>.State
         {
@@ -65,6 +66,7 @@ namespace Actor.Player
                     _jumpDelta = 0;
                     _isJumping = true;
                     _jumpBeginY = current.y;
+                    Context._animator.SetTrigger(AdnimIdJumpTrigger);
                 }
 
                 if (!_isJumping) return current;

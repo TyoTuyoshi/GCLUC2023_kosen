@@ -1,3 +1,4 @@
+using DG.Tweening;
 using IceMilkTea.Core;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Actor.Player
         [SerializeField] private float airMoveSpeed = 2f;
         [SerializeField] private float jumpPower = 4f;
         [SerializeField] private float gravity = 6f;
+        [SerializeField] private Transform shadow;
 
         private class MoveState : ImtStateMachine<Player, PlayerState>.State
         {
@@ -72,6 +74,10 @@ namespace Actor.Player
 
                 _jumpDelta += Time.fixedDeltaTime;
                 _isJumping = jumpPos.y >= _jumpBeginY;
+
+                var shadowPos = Context.shadow.position;
+                shadowPos.y = _jumpBeginY;
+                Context.shadow.position = shadowPos;
 
                 return jumpPos;
             }

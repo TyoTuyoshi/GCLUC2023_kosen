@@ -23,7 +23,7 @@ namespace Actor.Enemy
             CurrentHp = MaxHp;
 
             AttackEvent
-                .RegisterListenerInRange(transform)
+                .RegisterListenerInRange(origin)
                 .Subscribe(OnDamage)
                 .AddTo(this);
         }
@@ -36,12 +36,14 @@ namespace Actor.Enemy
 
         private void OnDamage(AttackEvent e)
         {
+            CurrentHp = Mathf.Clamp(CurrentHp - e.Amount, 0, MaxHp);
             hpBar.value = CurrentHp / MaxHp;
 
-            CurrentHp = Mathf.Clamp(CurrentHp - e.Amount, 0, MaxHp);
-
             // ノックバック
-            var dir = (_rigid.position - (Vector2)e.SourcePos).normalized * e.KnockBackPower;
+            // var dir = ((Vector2)origin.position - (Vector2)e.SourcePos).normalized * e.KnockBackPower;
+            var dir = Vector2.zero;
+            dir.x = _rigid.position.x < e.SourcePos.x ? e.KnockBackPower : -e.KnockBackPower;
+
             _rigid.AddForce(dir, ForceMode2D.Impulse);
             // 一定時間後にリセット
             DOVirtual.DelayedCall(1f, () => _rigid.velocity = Vector2.zero).SetLink(gameObject);

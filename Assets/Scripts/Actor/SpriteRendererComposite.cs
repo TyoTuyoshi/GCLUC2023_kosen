@@ -59,6 +59,8 @@ namespace Actor
                 }
 
                 _func(comp, comp.GetComponentsInChildren<SpriteRenderer>());
+                
+                EditorUtility.SetDirty(comp);
             }
         }
     }

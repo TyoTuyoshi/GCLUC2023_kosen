@@ -64,7 +64,7 @@ namespace Actor.Enemy
                     AttackRange = AttackRange,
                     KnockBackPower = 0.5f,
                     SourcePos = Context.attackOrigin.position,
-                    Source = transform
+                    Source = Context.origin
                 });
                 ParticleManager.Instance.PlayVfx(VfxEnum.Punch1, 1, Context.attackVfxPos.position,
                     Quaternion.Euler(0, forward.x < 0 ? 0 : 180, 0));
